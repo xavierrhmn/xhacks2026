@@ -1,7 +1,85 @@
-﻿namespace DefaultNamespace
+﻿namespace PerfReg
 {
-    public class HelpMenu
+    public static class HelpMenu
     {
-        
+        public static void ShowUsage()
+        {
+            Console.WriteLine("╔════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║           PerfReg - Performance Regression Detector           ║");
+            Console.WriteLine("╚════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine();
+            Console.WriteLine("USAGE:");
+            Console.WriteLine("  dotnet run --project PerfReg <command> [options]");
+            Console.WriteLine();
+            Console.WriteLine("COMMANDS:");
+            Console.WriteLine();
+            ShowCommand("run", "<binary> [args...]", "Run benchmark and store results");
+            ShowCommand("compare", "", "Compare last two benchmark runs");
+            ShowCommand("history", "", "Show performance history for all programs");
+            ShowCommand("clear", "", "Clear all benchmark history");
+            ShowCommand("help", "", "Show this help menu");
+            Console.WriteLine();
+            Console.WriteLine("EXAMPLES:");
+            Console.WriteLine();
+            ShowExample(
+                "Run a benchmark",
+                "dotnet run --project PerfReg run MyApp.exe"
+            );
+            ShowExample(
+                "Run with arguments",
+                "dotnet run --project PerfReg run MyApp.exe arg1 arg2"
+            );
+            ShowExample(
+                "Compare results",
+                "dotnet run --project PerfReg compare"
+            );
+            ShowExample(
+                "View history",
+                "dotnet run --project PerfReg history"
+            );
+            Console.WriteLine();
+            Console.WriteLine("TRACKED METRICS:");
+            Console.WriteLine("  • Runtime (milliseconds)");
+            Console.WriteLine("  • Peak Memory Usage (MB)");
+            Console.WriteLine("  • GC Collections (Gen 0, 1, 2)");
+            Console.WriteLine("  • Git Commit Hash (if available)");
+            Console.WriteLine();
+            Console.WriteLine("OUTPUT:");
+            Console.WriteLine("  Results are stored in <program-name>.benchmark.json");
+            Console.WriteLine("  Warnings (⚠️) appear when metrics degrade by >5%");
+            Console.WriteLine();
+        }
+
+        public static void ShowVersion()
+        {
+            Console.WriteLine("PerfReg v1.0.0");
+            Console.WriteLine("Performance Regression Detection Tool for .NET");
+            Console.WriteLine();
+        }
+
+        private static void ShowCommand(string command, string arguments, string description)
+        {
+            var cmdText = $"  {command}";
+            if (!string.IsNullOrEmpty(arguments))
+            {
+                cmdText += $" {arguments}";
+            }
+            
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write(cmdText.PadRight(35));
+            Console.ResetColor();
+            Console.WriteLine(description);
+        }
+
+        private static void ShowExample(string description, string command)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"  {description}:");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine($"    {command}");
+            Console.ResetColor();
+            Console.WriteLine();
+        }
     }
 }

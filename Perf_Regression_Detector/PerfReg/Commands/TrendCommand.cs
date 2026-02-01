@@ -53,7 +53,7 @@ public class TrendCommand : ICommand
 
         // Show trend analysis
         Console.WriteLine($"╔════════════════════════════════════════════════════════════════╗");
-        Console.WriteLine($"║                    Trend Analysis: {programName,-26} ║");
+        Console.WriteLine($"║                    Trend Analysis: {programName,-26}  ║");
         Console.WriteLine($"╚════════════════════════════════════════════════════════════════╝");
         Console.WriteLine();
 
@@ -95,13 +95,8 @@ public class TrendCommand : ICommand
 
         // Sparklines
         Console.WriteLine("Quick View:");
-        Console.Write("  Runtime:  ");
         TerminalChartRenderer.RenderSparkline(recentResults, "Runtime");
-        Console.WriteLine($"  {recentResults[0].RuntimeMs:F1}ms → {recentResults[^1].RuntimeMs:F1}ms");
-
-        Console.Write("  Memory:   ");
         TerminalChartRenderer.RenderSparkline(recentResults, "Memory");
-        Console.WriteLine($"  {recentResults[0].PeakMemoryBytes / 1024.0 / 1024.0:F1}MB → {recentResults[^1].PeakMemoryBytes / 1024.0 / 1024.0:F1}MB");
         Console.WriteLine();
 
         // Histogram if multiple runs with statistics
@@ -122,7 +117,7 @@ public class TrendCommand : ICommand
 
             if (allRuntimes.Count > 5)
             {
-                TerminalChartRenderer.RenderHistogram(allRuntimes, "Runtime Distribution", 50);
+                TerminalChartRenderer.RenderHistogram(allRuntimes, "Runtime Distribution", "ms", 50);
             }
         }
 

@@ -34,7 +34,9 @@ class Program
             ["compare"] = new CompareCommand(storage, analyzer, reporter),
             ["history"] = new HistoryCommand(storage, reporter),
             ["clear"] = new ClearCommand(storage),
-            ["config"] = new ConfigCommand()
+            ["config"] = new ConfigCommand(),
+            ["baseline"] = new BaselineCommand(storage, analyzer, reporter),
+            ["export"] = new ExportCommand(storage)
         };
 
         var commandName = args[0];

@@ -42,7 +42,7 @@ public class RunCommand : ICommand
         }
 
         // Parse arguments
-        var (binary, binaryArgs, runs, warmupRuns) = ParseArguments(args);
+        var (binary, binaryArgs, runs, warmupRuns, failOnRegression) = ParseArguments(args);
 
         Console.WriteLine($"Running benchmark: {binary}");
         if (runs > 1 || warmupRuns > 0)
@@ -61,6 +61,8 @@ public class RunCommand : ICommand
 
             _reporter.ShowResult(result);
 
+            bool hasRegression = false;
+
             if (history.Results.Count > 1)
             {
                 Console.WriteLine();
@@ -69,6 +71,17 @@ public class RunCommand : ICommand
                     history.Results[^2]
                 );
                 _reporter.ShowComparison(comparison);
+
+                // Check for regressions
+                hasRegression = comparison.Metrics.Any(m => m.IsRegression);
+            }
+
+            // Return non-zero exit code if regression detected and flag is set
+            if (hasRegression && failOnRegression)
+            {
+                Console.WriteLine();
+                Console.WriteLine("❌ Build failed: Performance regression detected");
+                return 1;
             }
 
             return 0;
@@ -80,12 +93,13 @@ public class RunCommand : ICommand
         }
     }
 
-    private (string binary, string[] binaryArgs, int runs, int warmupRuns) ParseArguments(string[] args)
+    private (string binary, string[] binaryArgs, int runs, int warmupRuns, bool failOnRegression) ParseArguments(string[] args)
     {
         string binary = "";
         var binaryArgs = new List<string>();
         int runs = _config.DefaultRuns;
         int warmupRuns = _config.DefaultWarmupRuns;
+        bool failOnRegression = _config.FailOnRegression;
 
         for (int i = 0; i < args.Length; i++)
         {
@@ -105,6 +119,10 @@ public class RunCommand : ICommand
                     i++; // Skip next arg
                 }
             }
+            else if (args[i] == "--fail-on-regression")
+            {
+                failOnRegression = true;
+            }
             else if (string.IsNullOrEmpty(binary))
             {
                 binary = args[i];
@@ -115,6 +133,6 @@ public class RunCommand : ICommand
             }
         }
 
-        return (binary, binaryArgs.ToArray(), runs, warmupRuns);
+        return (binary, binaryArgs.ToArray(), runs, warmupRuns, failOnRegression);
     }
 }

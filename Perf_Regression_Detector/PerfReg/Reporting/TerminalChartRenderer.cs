@@ -19,6 +19,13 @@ public static class TerminalChartRenderer
             _ => throw new ArgumentException($"Unknown metric: {metricName}")
         };
 
+        var unit = metricName switch
+        {
+            "Runtime" => "ms",
+            "Memory" => "MB",
+            _ => ""
+        };
+
         Console.WriteLine($"\n{metricName} Trend (last {results.Count} runs):");
         Console.WriteLine();
 
@@ -65,11 +72,36 @@ public static class TerminalChartRenderer
             }
         }
 
-        // Render chart
-        Console.WriteLine($"  {max:F2} ┤");
-        for (int y = 0; y < height; y++)
+        // Render chart with y-axis on right
+        Console.Write("  ");
+        for (int x = 0; x < width; x++)
         {
-            Console.Write("       │");
+            char c = chart[0, x];
+            if (c == '●')
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write(c);
+                Console.ResetColor();
+            }
+            else if (c == '─')
+            {
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.Write(c);
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.Write(c);
+            }
+        }
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.Write(" ┤ ");
+        Console.ResetColor();
+        Console.WriteLine($"{max:F2}{unit} (highest)");
+
+        for (int y = 1; y < height; y++)
+        {
+            Console.Write("  ");
             for (int x = 0; x < width; x++)
             {
                 char c = chart[y, x];
@@ -90,10 +122,22 @@ public static class TerminalChartRenderer
                     Console.Write(c);
                 }
             }
-            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine(" │");
+            Console.ResetColor();
         }
-        Console.WriteLine($"  {min:F2} └" + new string('─', width));
-        Console.WriteLine($"       First{new string(' ', width - 10)}Last");
+
+        Console.Write("  ");
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.Write(new string('─', width));
+        Console.Write("└┘ ");
+        Console.ResetColor();
+        Console.WriteLine($"{min:F2}{unit} (lowest)");
+
+        Console.Write("  ");
+        Console.Write("First");
+        Console.Write(new string(' ', width - 10));
+        Console.WriteLine("Last");
         Console.WriteLine();
     }
 
@@ -108,13 +152,23 @@ public static class TerminalChartRenderer
             _ => throw new ArgumentException($"Unknown metric: {metricName}")
         };
 
+        var unit = metricName switch
+        {
+            "Runtime" => "ms",
+            "Memory" => "MB",
+            _ => ""
+        };
+
         var min = values.Min();
         var max = values.Max();
         var range = max - min;
 
+        Console.Write($"  {metricName,-12}: ");
+
         if (range == 0)
         {
             Console.Write(new string('▄', values.Count));
+            Console.WriteLine($"  {min:F1}{unit} (constant)");
             return;
         }
 
@@ -138,6 +192,7 @@ public static class TerminalChartRenderer
         }
 
         Console.ResetColor();
+        Console.WriteLine($"  {values.First():F1}{unit} → {values.Last():F1}{unit}");
     }
 
     private static void DrawLine(char[,] chart, int x0, int y0, int x1, int y1)
@@ -172,11 +227,15 @@ public static class TerminalChartRenderer
         }
     }
 
-    public static void RenderHistogram(List<double> values, string title, int width = 40)
+    public static void RenderHistogram(List<double> values, string title, string unit = "", int width = 40)
     {
         if (values.Count == 0) return;
 
         Console.WriteLine($"\n{title}:");
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.WriteLine($"Shows distribution of {values.Count} data points");
+        Console.ResetColor();
+        Console.WriteLine();
 
         var min = values.Min();
         var max = values.Max();
@@ -206,13 +265,15 @@ public static class TerminalChartRenderer
             var bucketMin = min + (range * i / buckets);
             var bucketMax = min + (range * (i + 1) / buckets);
 
-            Console.Write($"{bucketMin,6:F1}-{bucketMax,6:F1} │");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write($"{bucketMin,6:F1}-{bucketMax,6:F1}{unit} │");
+            Console.ResetColor();
 
             var barWidth = (int)((double)histogram[i] / maxCount * width);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write(new string('█', barWidth));
             Console.ResetColor();
-            Console.WriteLine($" {histogram[i]}");
+            Console.WriteLine($" {histogram[i]} runs");
         }
         Console.WriteLine();
     }

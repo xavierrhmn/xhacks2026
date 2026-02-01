@@ -1,0 +1,12 @@
+{
+  "DefaultRuns": 1,
+  "DefaultWarmupRuns": 0,
+  "FailOnRegression": false,
+  "Thresholds": {
+    "RuntimePercent": 5,
+    "MemoryPercent": 5,
+    "GcGen0Percent": 5,
+    "GcGen1Percent": 5,
+    "GcGen2Percent": 5
+  }
+}

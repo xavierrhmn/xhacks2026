@@ -5,11 +5,11 @@
         public static void ShowUsage()
         {
             Console.WriteLine("╔════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║           PerfReg - Performance Regression Detector            ║");
+            Console.WriteLine("║             Tempo - Performance Regression Detector            ║");
             Console.WriteLine("╚════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
             Console.WriteLine("USAGE:");
-            Console.WriteLine("  perfreg <command> [options]");
+            Console.WriteLine("  tempo <command> [options]");
             Console.WriteLine();
             Console.WriteLine("COMMANDS:");
             Console.WriteLine();
@@ -33,55 +33,55 @@
             Console.WriteLine();
             ShowExample(
                 "Run a benchmark",
-                "perfreg run MyApp.exe"
+                "tempo run MyApp.exe"
             );
             ShowExample(
                 "Run with arguments",
-                "perfreg run MyApp.exe arg1 arg2"
+                "tempo run MyApp.exe arg1 arg2"
             );
             ShowExample(
                 "Compare results",
-                "perfreg compare"
+                "tempo compare"
             );
             ShowExample(
                 "View history",
-                "perfreg history"
+                "tempo history"
             );
             ShowExample(
                 "Multiple runs with statistics",
-                "perfreg run MyApp.exe --runs 5"
+                "tempo run MyApp.exe --runs 5"
             );
             ShowExample(
                 "With warmup runs",
-                "perfreg run MyApp.exe --runs 5 --warmup 2"
+                "tempo run MyApp.exe --runs 5 --warmup 2"
             );
             ShowExample(
                 "Create config file",
-                "perfreg config"
+                "tempo config"
             );
             ShowExample(
                 "Set baseline",
-                "perfreg baseline set"
+                "tempo baseline set"
             );
             ShowExample(
                 "Compare against baseline",
-                "perfreg baseline compare"
+                "tempo baseline compare"
             );
             ShowExample(
                 "Export as JSON",
-                "perfreg export > results.json"
+                "tempo export > results.json"
             );
             ShowExample(
                 "Fail CI build on regression",
-                "perfreg run MyApp.exe --fail-on-regression"
+                "tempo run MyApp.exe --fail-on-regression"
             );
             ShowExample(
                 "Show trend analysis with charts",
-                "perfreg trend"
+                "tempo trend"
             );
             ShowExample(
                 "Compare against specific commit",
-                "perfreg compare-historical abc1234"
+                "tempo compare-historical abc1234"
             );
             Console.WriteLine();
             Console.WriteLine("TRACKED METRICS:");
@@ -98,9 +98,9 @@
 
         public static void ShowVersion()
         {
-            Console.WriteLine("PerfReg v3.0.0");
-            Console.WriteLine("Performance Regression Detection Tool for .NET");
-            Console.WriteLine("Sprint 3: Advanced Analysis & Visualization");
+            Console.WriteLine("Tempo v3.0.0");
+            Console.WriteLine("Performance Regression Detection Tool");
+            Console.WriteLine("XHacks 2026");
             Console.WriteLine();
         }
 

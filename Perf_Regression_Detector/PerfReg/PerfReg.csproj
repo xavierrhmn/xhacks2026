@@ -8,15 +8,15 @@
     
     <!-- .NET Global Tool Configuration -->
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>perfreg</ToolCommandName>
-    <PackageId>PerfReg</PackageId>
+    <ToolCommandName>tempo</ToolCommandName>
+    <PackageId>Tempo</PackageId>
     <Version>3.0.0</Version>
     <Authors>XHacks2026</Authors>
-    <Description>A powerful, extensible performance regression detection tool for .NET applications</Description>
-    <PackageProjectUrl>https://github.com/yourusername/perfreg</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/yourusername/perfreg</RepositoryUrl>
+    <Description>Tempo - Performance regression detection tool that works with any executable</Description>
+    <PackageProjectUrl>https://github.com/XavierRHMN/tempo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/XavierRHMN/tempo</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>performance;benchmark;regression;testing;cli</PackageTags>
+    <PackageTags>performance;benchmark;regression;testing;cli;tempo</PackageTags>
   </PropertyGroup>
 
 </Project>

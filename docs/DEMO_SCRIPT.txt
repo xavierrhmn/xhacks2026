@@ -1,0 +1,160 @@
+================================================================================
+                    TEMPO - 3 MINUTE HACKATHON DEMO SCRIPT
+================================================================================
+
+TOTAL TIME: 3:00
+Run: .\demo.ps1 from Perf_Regression_Detector folder
+
+================================================================================
+INTRO (0:00 - 0:20) - 20 seconds
+================================================================================
+
+[LOGO APPEARS]
+
+"Ever shipped code that passed all tests but slowed your app by 50%? 
+That's a performance regression - and they're invisible until your 
+users start complaining.
+
+I built Tempo - a command-line tool that catches these regressions 
+BEFORE they hit production. And it works with ANY executable - not 
+just .NET!"
+
+[PRESS ENTER]
+
+================================================================================
+DEMO 1: STATISTICAL BENCHMARKING (0:20 - 0:50) - 30 seconds  
+================================================================================
+
+[BUILD COMPLETES, CLEAR HISTORY]
+
+"Let me show you. Tempo runs your program multiple times with warmups 
+to get statistically reliable measurements."
+
+[BENCHMARK RUNS - WAIT FOR OUTPUT]
+
+"Notice we get mean, standard deviation, min/max, AND industry-standard 
+percentiles - P50, P95, P99. This is what production monitoring tools use."
+
+[PRESS ENTER]
+
+================================================================================
+DEMO 2: SIMULATING COMMITS (0:50 - 1:10) - 20 seconds
+================================================================================
+
+"Now let's simulate a real development cycle - 7 commits with varying 
+performance."
+
+[COMMITS RUN]
+
+"Watch - commits 5 and 6 introduce a regression, but commit 7 fixes it."
+
+[PRESS ENTER]
+
+================================================================================
+DEMO 3: TREND ANALYSIS - THE WOW MOMENT (1:10 - 1:50) - 40 seconds
+================================================================================
+
+** THIS IS YOUR KILLER FEATURE - SPEND THE MOST TIME HERE **
+
+"Here's our killer feature - TREND ANALYSIS with ASCII charts right 
+in the terminal!"
+
+[CHARTS RENDER - PAUSE FOR EFFECT]
+
+"Look at that! We have:
+ - Linear regression showing if you're IMPROVING or DEGRADING
+ - Full line charts showing exactly when regressions happened
+ - Sparklines for a quick visual summary
+ - A histogram showing your runtime distribution
+
+All in the terminal, no external tools needed. This took inspiration 
+from tools like BenchmarkDotNet and Grafana!"
+
+[PRESS ENTER]
+
+================================================================================
+DEMO 4: CI/CD INTEGRATION (1:50 - 2:15) - 25 seconds
+================================================================================
+
+"For CI/CD, we have baselines. Set a baseline after a known-good build..."
+
+[BASELINE SET]
+
+"Then on every PR, compare against it."
+
+[COMPARISON SHOWS]
+
+"See that 70% regression warning? With the --fail-on-regression flag, 
+your build fails and the bad code never ships. Automatic performance 
+gates!"
+
+[PRESS ENTER]
+
+================================================================================
+DEMO 5: JSON EXPORT (2:15 - 2:30) - 15 seconds
+================================================================================
+
+"Need data for dashboards? Export structured JSON - perfect for 
+Grafana, DataDog, or custom visualization."
+
+[JSON SHOWS]
+
+[PRESS ENTER]
+
+================================================================================
+DEMO 6: WEB DASHBOARD + CLOSING (2:30 - 3:00) - 30 seconds
+================================================================================
+
+"We also built a web dashboard with Chart.js - glassmorphism theme, 
+interactive charts, all your historical data in one view."
+
+[PRESS ENTER]
+
+[SUMMARY SCREEN]
+
+"So that's Tempo - statistical benchmarking, beautiful trend charts, 
+CI/CD baselines, and zero setup. It's a .NET global tool - one command 
+to install:
+
+   dotnet tool install --global Tempo
+
+Catch regressions before your users do. Questions?"
+
+================================================================================
+                              PRESENTER TIPS
+================================================================================
+
+1. PRACTICE THE TIMING - Run through 2-3 times before the real demo
+
+2. PAUSE AT THE CHARTS - Let judges absorb the visual. Count "1, 2, 3" 
+   silently before continuing
+
+3. MAKE EYE CONTACT - Don't just read the terminal. Look at judges 
+   when explaining
+
+4. RECOVERY PLAN - If something fails:
+   - "Let me skip to the next feature" and hit ENTER
+   - Have a screenshot backup of the trend charts
+
+5. ENERGY - Start and end strong. The intro hook and closing install 
+   command are your bookends
+
+6. QUESTIONS TO EXPECT:
+   - "How does it detect regressions?" → Percentage thresholds, configurable
+   - "Does it work with any language?" → Yes! Any executable that runs and exits
+   - "How accurate?" → Statistical runs with P95/P99 reduce noise
+   - "CI integration?" → Exit codes + JSON export for any CI system
+
+================================================================================
+                              TIMING SUMMARY
+================================================================================
+
+Intro:                     20 sec
+Statistical Benchmarking:  30 sec
+Simulating Commits:        20 sec
+Trend Analysis (WOW):      40 sec  ** MOST TIME HERE **
+CI/CD Baselines:           25 sec
+JSON Export:               15 sec
+Dashboard + Close:         30 sec
+                          --------
+TOTAL:                   3:00 min

@@ -1,8 +1,8 @@
-# PerfReg - Performance Regression Detector
+# Tempo - Performance Regression Detector
 
-**A powerful, extensible performance regression detection tool for .NET applications**
+**A performance regression detection tool that works with any executable**
 
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/yourusername/perfreg)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/XavierRHMN/tempo)
 [![.NET](https://img.shields.io/badge/.NET-8.0-purple.svg)](https://dotnet.microsoft.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 

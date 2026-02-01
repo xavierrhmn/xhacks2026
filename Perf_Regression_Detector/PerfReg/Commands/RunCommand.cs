@@ -1,4 +1,5 @@
 using PerfReg.Analysis;
+using PerfReg.Configuration;
 using PerfReg.Core;
 using PerfReg.Reporting;
 using PerfReg.Storage;
@@ -11,6 +12,7 @@ public class RunCommand : ICommand
     private readonly IHistoryStorage _storage;
     private readonly IResultAnalyzer _analyzer;
     private readonly IReporter _reporter;
+    private readonly PerfRegConfig _config;
 
     public string Name => "run";
     public string Description => "Run benchmark and store results";
@@ -19,12 +21,14 @@ public class RunCommand : ICommand
         IBenchmarkRunner runner,
         IHistoryStorage storage,
         IResultAnalyzer analyzer,
-        IReporter reporter)
+        IReporter reporter,
+        PerfRegConfig config)
     {
         _runner = runner;
         _storage = storage;
         _analyzer = analyzer;
         _reporter = reporter;
+        _config = config;
     }
 
     public async Task<int> ExecuteAsync(string[] args)
@@ -37,14 +41,19 @@ public class RunCommand : ICommand
             return 1;
         }
 
-        string binary = args[0];
-        string[] binaryArgs = args.Skip(1).ToArray();
+        // Parse arguments
+        var (binary, binaryArgs, runs, warmupRuns) = ParseArguments(args);
 
         Console.WriteLine($"Running benchmark: {binary}");
+        if (runs > 1 || warmupRuns > 0)
+        {
+            Console.WriteLine($"Configuration: {runs} run(s), {warmupRuns} warmup(s)");
+            Console.WriteLine();
+        }
 
         try
         {
-            var result = await _runner.RunAsync(binary, binaryArgs);
+            var result = await _runner.RunAsync(binary, binaryArgs, runs, warmupRuns);
 
             var history = _storage.Load(binary);
             history.Results.Add(result);
@@ -69,5 +78,43 @@ public class RunCommand : ICommand
             Console.WriteLine($"Error: {ex.Message}");
             return 1;
         }
+    }
+
+    private (string binary, string[] binaryArgs, int runs, int warmupRuns) ParseArguments(string[] args)
+    {
+        string binary = "";
+        var binaryArgs = new List<string>();
+        int runs = _config.DefaultRuns;
+        int warmupRuns = _config.DefaultWarmupRuns;
+
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (args[i] == "--runs" && i + 1 < args.Length)
+            {
+                if (int.TryParse(args[i + 1], out int r) && r > 0)
+                {
+                    runs = r;
+                    i++; // Skip next arg
+                }
+            }
+            else if (args[i] == "--warmup" && i + 1 < args.Length)
+            {
+                if (int.TryParse(args[i + 1], out int w) && w >= 0)
+                {
+                    warmupRuns = w;
+                    i++; // Skip next arg
+                }
+            }
+            else if (string.IsNullOrEmpty(binary))
+            {
+                binary = args[i];
+            }
+            else
+            {
+                binaryArgs.Add(args[i]);
+            }
+        }
+
+        return (binary, binaryArgs.ToArray(), runs, warmupRuns);
     }
 }

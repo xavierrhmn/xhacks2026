@@ -1,5 +1,6 @@
 using PerfReg.Analysis;
 using PerfReg.Commands;
+using PerfReg.Configuration;
 using PerfReg.Core;
 using PerfReg.Reporting;
 using PerfReg.Storage;
@@ -16,6 +17,9 @@ class Program
             return 1;
         }
 
+        // Load configuration
+        var config = ConfigLoader.Load();
+
         // Initialize dependencies
         var storage = new JsonHistoryStorage();
         var metricsCollector = new ProcessMetricsCollector();
@@ -26,10 +30,11 @@ class Program
         // Create commands
         var commands = new Dictionary<string, ICommand>
         {
-            ["run"] = new RunCommand(runner, storage, analyzer, reporter),
+            ["run"] = new RunCommand(runner, storage, analyzer, reporter, config),
             ["compare"] = new CompareCommand(storage, analyzer, reporter),
             ["history"] = new HistoryCommand(storage, reporter),
-            ["clear"] = new ClearCommand(storage)
+            ["clear"] = new ClearCommand(storage),
+            ["config"] = new ConfigCommand()
         };
 
         var commandName = args[0];

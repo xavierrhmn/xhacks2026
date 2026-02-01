@@ -13,11 +13,16 @@
             Console.WriteLine();
             Console.WriteLine("COMMANDS:");
             Console.WriteLine();
-            ShowCommand("run", "<binary> [args...]", "Run benchmark and store results");
+            ShowCommand("run", "<binary> [args...] [options]", "Run benchmark and store results");
             ShowCommand("compare", "", "Compare last two benchmark runs");
             ShowCommand("history", "", "Show performance history for all programs");
             ShowCommand("clear", "", "Clear all benchmark history");
+            ShowCommand("config", "", "Create default .perfreg.json config file");
             ShowCommand("help", "", "Show this help menu");
+            Console.WriteLine();
+            Console.WriteLine("RUN OPTIONS:");
+            Console.WriteLine("  --runs N                         Run benchmark N times (default: 1)");
+            Console.WriteLine("  --warmup N                       Run N warmup iterations (default: 0)");
             Console.WriteLine();
             Console.WriteLine("EXAMPLES:");
             Console.WriteLine();
@@ -36,6 +41,18 @@
             ShowExample(
                 "View history",
                 "dotnet run --project PerfReg history"
+            );
+            ShowExample(
+                "Multiple runs with statistics",
+                "dotnet run --project PerfReg run MyApp.exe --runs 5"
+            );
+            ShowExample(
+                "With warmup runs",
+                "dotnet run --project PerfReg run MyApp.exe --runs 5 --warmup 2"
+            );
+            ShowExample(
+                "Create config file",
+                "dotnet run --project PerfReg config"
             );
             Console.WriteLine();
             Console.WriteLine("TRACKED METRICS:");

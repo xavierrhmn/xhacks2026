@@ -8,9 +8,23 @@ public class ConsoleReporter : IReporter
     public void ShowResult(BenchmarkResult result)
     {
         Console.WriteLine($"\n✓ Benchmark complete!");
-        Console.WriteLine($"  Runtime: {result.RuntimeMs:F2}ms");
-        Console.WriteLine($"  Peak Memory: {result.PeakMemoryBytes / 1024.0 / 1024.0:F2}MB");
-        Console.WriteLine($"  GC Gen0/1/2: {result.Gen0Collections}/{result.Gen1Collections}/{result.Gen2Collections}");
+
+        if (result.Statistics != null)
+        {
+            var stats = result.Statistics;
+            Console.WriteLine($"\nResults ({stats.TotalRuns} run(s), {stats.WarmupRuns} warmup(s)):");
+            Console.WriteLine($"  Runtime:     {result.RuntimeMs:F2}ms (±{stats.Runtime.StdDev:F2}ms)");
+            Console.WriteLine($"               [min: {stats.Runtime.Min:F2}ms, median: {stats.Runtime.Median:F2}ms, max: {stats.Runtime.Max:F2}ms]");
+            Console.WriteLine($"  Peak Memory: {result.PeakMemoryBytes / 1024.0 / 1024.0:F2}MB (±{stats.Memory.StdDev / 1024.0 / 1024.0:F2}MB)");
+            Console.WriteLine($"               [min: {stats.Memory.Min / 1024.0 / 1024.0:F2}MB, median: {stats.Memory.Median / 1024.0 / 1024.0:F2}MB, max: {stats.Memory.Max / 1024.0 / 1024.0:F2}MB]");
+            Console.WriteLine($"  GC Gen0/1/2: {result.Gen0Collections}/{result.Gen1Collections}/{result.Gen2Collections}");
+        }
+        else
+        {
+            Console.WriteLine($"  Runtime: {result.RuntimeMs:F2}ms");
+            Console.WriteLine($"  Peak Memory: {result.PeakMemoryBytes / 1024.0 / 1024.0:F2}MB");
+            Console.WriteLine($"  GC Gen0/1/2: {result.Gen0Collections}/{result.Gen1Collections}/{result.Gen2Collections}");
+        }
     }
 
     public void ShowComparison(ComparisonReport report)
@@ -36,7 +50,8 @@ public class ConsoleReporter : IReporter
             Console.WriteLine("\nRecent runs:");
             foreach (var result in history.Results.TakeLast(5).Reverse())
             {
-                Console.WriteLine($"  {result.Timestamp:yyyy-MM-dd HH:mm:ss} - {result.RuntimeMs:F2}ms - {result.CommitHash[..Math.Min(8, result.CommitHash.Length)]}");
+                var statsInfo = result.Statistics != null ? $" ({result.Statistics.TotalRuns}x)" : "";
+                Console.WriteLine($"  {result.Timestamp:yyyy-MM-dd HH:mm:ss} - {result.RuntimeMs:F2}ms{statsInfo} - {result.CommitHash[..Math.Min(8, result.CommitHash.Length)]}");
             }
         }
     }

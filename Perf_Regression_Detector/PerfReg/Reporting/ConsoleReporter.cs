@@ -1,0 +1,58 @@
+using PerfReg.Analysis;
+using PerfReg.Models;
+
+namespace PerfReg.Reporting;
+
+public class ConsoleReporter : IReporter
+{
+    public void ShowResult(BenchmarkResult result)
+    {
+        Console.WriteLine($"\n✓ Benchmark complete!");
+        Console.WriteLine($"  Runtime: {result.RuntimeMs:F2}ms");
+        Console.WriteLine($"  Peak Memory: {result.PeakMemoryBytes / 1024.0 / 1024.0:F2}MB");
+        Console.WriteLine($"  GC Gen0/1/2: {result.Gen0Collections}/{result.Gen1Collections}/{result.Gen2Collections}");
+    }
+
+    public void ShowComparison(ComparisonReport report)
+    {
+        Console.WriteLine("=== Performance Comparison ===");
+        Console.WriteLine($"Current:  {report.Current.Timestamp:yyyy-MM-dd HH:mm:ss} ({report.Current.CommitHash})");
+        Console.WriteLine($"Previous: {report.Previous.Timestamp:yyyy-MM-dd HH:mm:ss} ({report.Previous.CommitHash})");
+        Console.WriteLine();
+
+        foreach (var metric in report.Metrics)
+        {
+            ShowMetricComparison(metric);
+        }
+    }
+
+    public void ShowHistory(BenchmarkHistory history)
+    {
+        Console.WriteLine($"\n=== {history.ProgramName} ===");
+        Console.WriteLine($"Total runs: {history.Results.Count}");
+
+        if (history.Results.Count > 0)
+        {
+            Console.WriteLine("\nRecent runs:");
+            foreach (var result in history.Results.TakeLast(5).Reverse())
+            {
+                Console.WriteLine($"  {result.Timestamp:yyyy-MM-dd HH:mm:ss} - {result.RuntimeMs:F2}ms - {result.CommitHash[..Math.Min(8, result.CommitHash.Length)]}");
+            }
+        }
+    }
+
+    private void ShowMetricComparison(MetricComparison metric)
+    {
+        var changeStr = $"{(metric.PercentageChange >= 0 ? "+" : "")}{metric.PercentageChange:F1}%";
+
+        var symbol = metric.Direction switch
+        {
+            ChangeDirection.Degraded when metric.IsRegression => "⚠️ ",
+            ChangeDirection.Degraded => "↑",
+            ChangeDirection.Improved => "↓",
+            _ => "→"
+        };
+
+        Console.WriteLine($"{metric.Name,-15}: {metric.CurrentValue:F2}{metric.Unit,-4} ({changeStr,8}) {symbol}");
+    }
+}

@@ -15,8 +15,20 @@ public class ConsoleReporter : IReporter
             Console.WriteLine($"\nResults ({stats.TotalRuns} run(s), {stats.WarmupRuns} warmup(s)):");
             Console.WriteLine($"  Runtime:     {result.RuntimeMs:F2}ms (±{stats.Runtime.StdDev:F2}ms)");
             Console.WriteLine($"               [min: {stats.Runtime.Min:F2}ms, median: {stats.Runtime.Median:F2}ms, max: {stats.Runtime.Max:F2}ms]");
+
+            if (stats.Runtime.P95.HasValue && stats.Runtime.P99.HasValue)
+            {
+                Console.WriteLine($"               [p50: {stats.Runtime.P50:F2}ms, p95: {stats.Runtime.P95:F2}ms, p99: {stats.Runtime.P99:F2}ms]");
+            }
+
             Console.WriteLine($"  Peak Memory: {result.PeakMemoryBytes / 1024.0 / 1024.0:F2}MB (±{stats.Memory.StdDev / 1024.0 / 1024.0:F2}MB)");
             Console.WriteLine($"               [min: {stats.Memory.Min / 1024.0 / 1024.0:F2}MB, median: {stats.Memory.Median / 1024.0 / 1024.0:F2}MB, max: {stats.Memory.Max / 1024.0 / 1024.0:F2}MB]");
+
+            if (stats.Memory.P95.HasValue && stats.Memory.P99.HasValue)
+            {
+                Console.WriteLine($"               [p50: {stats.Memory.P50 / 1024.0 / 1024.0:F2}MB, p95: {stats.Memory.P95 / 1024.0 / 1024.0:F2}MB, p99: {stats.Memory.P99 / 1024.0 / 1024.0:F2}MB]");
+            }
+
             Console.WriteLine($"  GC Gen0/1/2: {result.Gen0Collections}/{result.Gen1Collections}/{result.Gen2Collections}");
         }
         else

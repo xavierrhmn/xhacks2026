@@ -16,8 +16,10 @@
             ShowCommand("run", "<binary> [args...] [options]", "Run benchmark and store results");
             ShowCommand("compare", "", "Compare last two benchmark runs");
             ShowCommand("history", "", "Show performance history for all programs");
+            ShowCommand("trend", "[program] [--window N]", "Show performance trends with charts");
             ShowCommand("baseline", "<set|compare|show|clear>", "Manage performance baselines");
             ShowCommand("export", "[program]", "Export benchmark data as JSON");
+            ShowCommand("compare-historical", "<commit>", "Compare against specific commit");
             ShowCommand("clear", "", "Clear all benchmark history");
             ShowCommand("config", "", "Create default .perfreg.json config file");
             ShowCommand("help", "", "Show this help menu");
@@ -73,6 +75,14 @@
                 "Fail CI build on regression",
                 "dotnet run --project PerfReg run MyApp.exe --fail-on-regression"
             );
+            ShowExample(
+                "Show trend analysis with charts",
+                "dotnet run --project PerfReg trend"
+            );
+            ShowExample(
+                "Compare against specific commit",
+                "dotnet run --project PerfReg compare-historical abc1234"
+            );
             Console.WriteLine();
             Console.WriteLine("TRACKED METRICS:");
             Console.WriteLine("  • Runtime (milliseconds)");
@@ -88,9 +98,9 @@
 
         public static void ShowVersion()
         {
-            Console.WriteLine("PerfReg v2.0.0");
+            Console.WriteLine("PerfReg v3.0.0");
             Console.WriteLine("Performance Regression Detection Tool for .NET");
-            Console.WriteLine("Sprint 2: CI/CD Integration");
+            Console.WriteLine("Sprint 3: Advanced Analysis & Visualization");
             Console.WriteLine();
         }
 

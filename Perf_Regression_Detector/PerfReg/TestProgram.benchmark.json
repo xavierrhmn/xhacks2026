@@ -1,0 +1,122 @@
+{
+  "ProgramName": "TestProgram",
+  "Results": [
+    {
+      "CommitHash": "609003a",
+      "Timestamp": "2026-01-31T22:50:15.3465883Z",
+      "RuntimeMs": 209.6347,
+      "PeakMemoryBytes": 21741568,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "609003a",
+      "Timestamp": "2026-01-31T22:50:17.9850679Z",
+      "RuntimeMs": 323.1815,
+      "PeakMemoryBytes": 25792512,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "609003a",
+      "Timestamp": "2026-01-31T23:07:03.7717451Z",
+      "RuntimeMs": 201.7265,
+      "PeakMemoryBytes": 21889024,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "609003a",
+      "Timestamp": "2026-01-31T23:09:12.1027758Z",
+      "RuntimeMs": 207.4656,
+      "PeakMemoryBytes": 21749760,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "609003a",
+      "Timestamp": "2026-01-31T23:09:14.6098705Z",
+      "RuntimeMs": 332.9439,
+      "PeakMemoryBytes": 25772032,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "9bca74b",
+      "Timestamp": "2026-01-31T23:26:35.6041389Z",
+      "RuntimeMs": 287.9142,
+      "PeakMemoryBytes": 21848064,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "9bca74b",
+      "Timestamp": "2026-01-31T23:26:38.4788763Z",
+      "RuntimeMs": 322.1518,
+      "PeakMemoryBytes": 25710592,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "9bca74b",
+      "Timestamp": "2026-01-31T23:59:34.3148055Z",
+      "RuntimeMs": 207.6158,
+      "PeakMemoryBytes": 21729280,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "9bca74b",
+      "Timestamp": "2026-01-31T23:59:37.4946212Z",
+      "RuntimeMs": 347.6846,
+      "PeakMemoryBytes": 25808896,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "9bca74b",
+      "Timestamp": "2026-02-01T01:09:56.4885848Z",
+      "RuntimeMs": 200.2991,
+      "PeakMemoryBytes": 21741568,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "9bca74b",
+      "Timestamp": "2026-02-01T01:09:59.0560547Z",
+      "RuntimeMs": 322.0016,
+      "PeakMemoryBytes": 25763840,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "da616b2",
+      "Timestamp": "2026-02-01T01:12:13.2496514Z",
+      "RuntimeMs": 198.2645,
+      "PeakMemoryBytes": 21708800,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    },
+    {
+      "CommitHash": "da616b2",
+      "Timestamp": "2026-02-01T01:12:16.1169597Z",
+      "RuntimeMs": 314.4353,
+      "PeakMemoryBytes": 25772032,
+      "Gen0Collections": 0,
+      "Gen1Collections": 0,
+      "Gen2Collections": 0
+    }
+  ]
+}

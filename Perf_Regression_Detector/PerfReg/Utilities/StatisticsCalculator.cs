@@ -21,14 +21,20 @@ public static class StatisticsCalculator
                 Median: Median(runtimes),
                 StdDev: StandardDeviation(runtimes),
                 Min: runtimes.Min(),
-                Max: runtimes.Max()
+                Max: runtimes.Max(),
+                P50: Percentile(runtimes, 50),
+                P95: Percentile(runtimes, 95),
+                P99: Percentile(runtimes, 99)
             ),
             Memory: new MemoryStats(
                 Mean: memories.Average(),
                 Median: Median(memories.Select(m => (double)m).ToList()),
                 StdDev: StandardDeviation(memories.Select(m => (double)m).ToList()),
                 Min: memories.Min(),
-                Max: memories.Max()
+                Max: memories.Max(),
+                P50: Percentile(memories.Select(m => (double)m).ToList(), 50),
+                P95: Percentile(memories.Select(m => (double)m).ToList(), 95),
+                P99: Percentile(memories.Select(m => (double)m).ToList(), 99)
             ),
             GarbageCollection: new GcStats(
                 Gen0: new GcGenStats(
@@ -78,5 +84,27 @@ public static class StatisticsCalculator
         double mean = values.Average();
         double sumSquaredDiff = values.Sum(v => Math.Pow(v - mean, 2));
         return Math.Sqrt(sumSquaredDiff / (values.Count - 1));
+    }
+
+    private static double Percentile(List<double> values, double percentile)
+    {
+        if (values.Count == 0) return 0;
+        if (values.Count == 1) return values[0];
+
+        var sorted = values.OrderBy(v => v).ToList();
+        double index = (percentile / 100.0) * (sorted.Count - 1);
+        int lowerIndex = (int)Math.Floor(index);
+        int upperIndex = (int)Math.Ceiling(index);
+
+        if (lowerIndex == upperIndex)
+        {
+            return sorted[lowerIndex];
+        }
+
+        double lowerValue = sorted[lowerIndex];
+        double upperValue = sorted[upperIndex];
+        double fraction = index - lowerIndex;
+
+        return lowerValue + (upperValue - lowerValue) * fraction;
     }
 }

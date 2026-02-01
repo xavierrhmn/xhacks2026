@@ -36,7 +36,9 @@ class Program
             ["clear"] = new ClearCommand(storage),
             ["config"] = new ConfigCommand(),
             ["baseline"] = new BaselineCommand(storage, analyzer, reporter),
-            ["export"] = new ExportCommand(storage)
+            ["export"] = new ExportCommand(storage),
+            ["trend"] = new TrendCommand(storage),
+            ["compare-historical"] = new CompareHistoricalCommand(storage, analyzer, reporter)
         };
 
         var commandName = args[0];

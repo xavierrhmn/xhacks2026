@@ -24,7 +24,10 @@ public record RuntimeStats(
     double Median,
     double StdDev,
     double Min,
-    double Max
+    double Max,
+    double? P50 = null,
+    double? P95 = null,
+    double? P99 = null
 );
 
 public record MemoryStats(
@@ -32,7 +35,10 @@ public record MemoryStats(
     double Median,
     double StdDev,
     long Min,
-    long Max
+    long Max,
+    double? P50 = null,
+    double? P95 = null,
+    double? P99 = null
 );
 
 public record GcStats(

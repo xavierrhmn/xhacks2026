@@ -1,160 +1,156 @@
 ================================================================================
-                    TEMPO - 3 MINUTE HACKATHON DEMO SCRIPT
+                    TEMPO - 2:30 HACKATHON DEMO SCRIPT
 ================================================================================
 
-TOTAL TIME: 3:00
+TOTAL TIME: 2:30
 Run: .\demo.ps1 from Perf_Regression_Detector folder
+NOTE: This is INTERACTIVE - you type the commands shown!
 
 ================================================================================
-INTRO (0:00 - 0:20) - 20 seconds
+INTRO (0:00 - 0:15) - 15 seconds
 ================================================================================
 
 [LOGO APPEARS]
 
 "Ever shipped code that passed all tests but slowed your app by 50%? 
-That's a performance regression - and they're invisible until your 
-users start complaining.
-
-I built Tempo - a command-line tool that catches these regressions 
-BEFORE they hit production. And it works with ANY executable - not 
-just .NET!"
+That's a performance regression. I built Tempo to catch these BEFORE 
+they hit production. Works with ANY executable."
 
 [PRESS ENTER]
 
 ================================================================================
-DEMO 1: STATISTICAL BENCHMARKING (0:20 - 0:50) - 30 seconds  
+DEMO 1: WHY WARMUPS MATTER (0:15 - 0:35) - 20 seconds  
 ================================================================================
 
 [BUILD COMPLETES, CLEAR HISTORY]
 
-"Let me show you. Tempo runs your program multiple times with warmups 
-to get statistically reliable measurements."
+"First, I'll show why warmups matter."
 
-[BENCHMARK RUNS - WAIT FOR OUTPUT]
+[TYPE: tempo run DemoApp/bin/Release/net8.0/DemoApp.exe fast --runs 3]
 
-"Notice we get mean, standard deviation, min/max, AND industry-standard 
-percentiles - P50, P95, P99. This is what production monitoring tools use."
+"Without warmup, the first run is slower due to JIT compilation."
 
-[PRESS ENTER]
+[TYPE: tempo run DemoApp/bin/Release/net8.0/DemoApp.exe fast --runs 3 --warmup 2]
 
-================================================================================
-DEMO 2: SIMULATING COMMITS (0:50 - 1:10) - 20 seconds
-================================================================================
-
-"Now let's simulate a real development cycle - 7 commits with varying 
-performance."
-
-[COMMITS RUN]
-
-"Watch - commits 5 and 6 introduce a regression, but commit 7 fixes it."
+"With warmup, results are consistent. Warmups eliminate cold-start noise."
 
 [PRESS ENTER]
 
 ================================================================================
-DEMO 3: TREND ANALYSIS - THE WOW MOMENT (1:10 - 1:50) - 40 seconds
+DEMO 2: STATISTICAL BENCHMARKING (0:35 - 0:50) - 15 seconds
+================================================================================
+
+"Now a full benchmark with statistics."
+
+[TYPE: tempo run DemoApp/bin/Release/net8.0/DemoApp.exe fast --runs 5 --warmup 2]
+
+"We get mean, standard deviation, and P50/P95/P99 percentiles."
+
+[PRESS ENTER]
+
+================================================================================
+DEMO 3: BUILDING HISTORY (0:50 - 1:00) - 10 seconds
+================================================================================
+
+"Simulating 7 commits - watch commits 5 and 6 introduce a regression."
+
+[AUTOMATED - COMMITS RUN]
+
+[PRESS ENTER]
+
+================================================================================
+DEMO 4: TREND ANALYSIS - THE WOW MOMENT (1:00 - 1:30) - 30 seconds
 ================================================================================
 
 ** THIS IS YOUR KILLER FEATURE - SPEND THE MOST TIME HERE **
 
-"Here's our killer feature - TREND ANALYSIS with ASCII charts right 
-in the terminal!"
+[TYPE: tempo trend DemoApp]
 
 [CHARTS RENDER - PAUSE FOR EFFECT]
 
-"Look at that! We have:
- - Linear regression showing if you're IMPROVING or DEGRADING
- - Full line charts showing exactly when regressions happened
- - Sparklines for a quick visual summary
- - A histogram showing your runtime distribution
+"Look at that! ASCII charts right in the terminal:
+ - Linear regression showing improvement or degradation
+ - Line charts showing exactly when regressions happened
+ - Sparklines and histograms
 
-All in the terminal, no external tools needed. This took inspiration 
-from tools like BenchmarkDotNet and Grafana!"
+No external tools needed."
 
 [PRESS ENTER]
 
 ================================================================================
-DEMO 4: CI/CD INTEGRATION (1:50 - 2:15) - 25 seconds
+DEMO 5: CI/CD BASELINES (1:30 - 1:50) - 20 seconds
 ================================================================================
 
-"For CI/CD, we have baselines. Set a baseline after a known-good build..."
+[TYPE: tempo baseline set DemoApp]
 
-[BASELINE SET]
+"Set a baseline after a known-good build."
 
-"Then on every PR, compare against it."
+[REGRESSION SIMULATED AUTOMATICALLY]
 
-[COMPARISON SHOWS]
+[TYPE: tempo baseline compare DemoApp]
 
-"See that 70% regression warning? With the --fail-on-regression flag, 
-your build fails and the bad code never ships. Automatic performance 
-gates!"
+"See the regression warning? Use --fail-on-regression to fail CI builds."
 
 [PRESS ENTER]
 
 ================================================================================
-DEMO 5: JSON EXPORT (2:15 - 2:30) - 15 seconds
+DEMO 6: JSON EXPORT (1:50 - 2:00) - 10 seconds
 ================================================================================
 
-"Need data for dashboards? Export structured JSON - perfect for 
-Grafana, DataDog, or custom visualization."
+[TYPE: tempo export DemoApp]
 
-[JSON SHOWS]
+"Export JSON for Grafana, DataDog, or custom dashboards."
 
 [PRESS ENTER]
 
 ================================================================================
-DEMO 6: WEB DASHBOARD + CLOSING (2:30 - 3:00) - 30 seconds
+DEMO 7: WEB DASHBOARD + CLOSING (2:00 - 2:30) - 30 seconds
 ================================================================================
 
-"We also built a web dashboard with Chart.js - glassmorphism theme, 
-interactive charts, all your historical data in one view."
+"We also built a web dashboard - Chart.js with glassmorphism theme."
 
 [PRESS ENTER]
 
 [SUMMARY SCREEN]
 
-"So that's Tempo - statistical benchmarking, beautiful trend charts, 
-CI/CD baselines, and zero setup. It's a .NET global tool - one command 
-to install:
+"So that's Tempo: statistical benchmarking, trend charts, CI/CD baselines, 
+and zero setup. One command to install:
 
    dotnet tool install --global Tempo
 
-Catch regressions before your users do. Questions?"
+Questions?"
 
 ================================================================================
                               PRESENTER TIPS
 ================================================================================
 
-1. PRACTICE THE TIMING - Run through 2-3 times before the real demo
+1. PRACTICE - Run through 2-3 times before the real demo
 
-2. PAUSE AT THE CHARTS - Let judges absorb the visual. Count "1, 2, 3" 
-   silently before continuing
+2. PAUSE AT CHARTS - Let judges absorb the visual
 
-3. MAKE EYE CONTACT - Don't just read the terminal. Look at judges 
-   when explaining
+3. MAKE EYE CONTACT - Look at judges when explaining
 
-4. RECOVERY PLAN - If something fails:
-   - "Let me skip to the next feature" and hit ENTER
-   - Have a screenshot backup of the trend charts
+4. RECOVERY - If you mistype, the script re-prompts you
 
-5. ENERGY - Start and end strong. The intro hook and closing install 
-   command are your bookends
+5. ENERGY - Start and end strong
 
 6. QUESTIONS TO EXPECT:
-   - "How does it detect regressions?" → Percentage thresholds, configurable
-   - "Does it work with any language?" → Yes! Any executable that runs and exits
+   - "How does it detect regressions?" → Configurable percentage thresholds
+   - "Does it work with any language?" → Yes! Any executable
    - "How accurate?" → Statistical runs with P95/P99 reduce noise
-   - "CI integration?" → Exit codes + JSON export for any CI system
+   - "CI integration?" → Exit codes + JSON export
 
 ================================================================================
                               TIMING SUMMARY
 ================================================================================
 
-Intro:                     20 sec
-Statistical Benchmarking:  30 sec
-Simulating Commits:        20 sec
-Trend Analysis (WOW):      40 sec  ** MOST TIME HERE **
-CI/CD Baselines:           25 sec
-JSON Export:               15 sec
+Intro:                     15 sec
+Warmups Demo:              20 sec
+Statistical Benchmarking:  15 sec
+Building History:          10 sec
+Trend Analysis (WOW):      30 sec  ** MOST TIME HERE **
+CI/CD Baselines:           20 sec
+JSON Export:               10 sec
 Dashboard + Close:         30 sec
                           --------
-TOTAL:                   3:00 min
+TOTAL:                   2:30 min

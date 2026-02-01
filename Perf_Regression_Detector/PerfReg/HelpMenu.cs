@@ -16,6 +16,8 @@
             ShowCommand("run", "<binary> [args...] [options]", "Run benchmark and store results");
             ShowCommand("compare", "", "Compare last two benchmark runs");
             ShowCommand("history", "", "Show performance history for all programs");
+            ShowCommand("baseline", "<set|compare|show|clear>", "Manage performance baselines");
+            ShowCommand("export", "[program]", "Export benchmark data as JSON");
             ShowCommand("clear", "", "Clear all benchmark history");
             ShowCommand("config", "", "Create default .perfreg.json config file");
             ShowCommand("help", "", "Show this help menu");
@@ -23,6 +25,7 @@
             Console.WriteLine("RUN OPTIONS:");
             Console.WriteLine("  --runs N                         Run benchmark N times (default: 1)");
             Console.WriteLine("  --warmup N                       Run N warmup iterations (default: 0)");
+            Console.WriteLine("  --fail-on-regression             Exit with code 1 if regression detected");
             Console.WriteLine();
             Console.WriteLine("EXAMPLES:");
             Console.WriteLine();
@@ -54,6 +57,22 @@
                 "Create config file",
                 "dotnet run --project PerfReg config"
             );
+            ShowExample(
+                "Set baseline",
+                "dotnet run --project PerfReg baseline set"
+            );
+            ShowExample(
+                "Compare against baseline",
+                "dotnet run --project PerfReg baseline compare"
+            );
+            ShowExample(
+                "Export as JSON",
+                "dotnet run --project PerfReg export > results.json"
+            );
+            ShowExample(
+                "Fail CI build on regression",
+                "dotnet run --project PerfReg run MyApp.exe --fail-on-regression"
+            );
             Console.WriteLine();
             Console.WriteLine("TRACKED METRICS:");
             Console.WriteLine("  • Runtime (milliseconds)");
@@ -69,8 +88,9 @@
 
         public static void ShowVersion()
         {
-            Console.WriteLine("PerfReg v1.0.0");
+            Console.WriteLine("PerfReg v2.0.0");
             Console.WriteLine("Performance Regression Detection Tool for .NET");
+            Console.WriteLine("Sprint 2: CI/CD Integration");
             Console.WriteLine();
         }
 

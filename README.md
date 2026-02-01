@@ -66,7 +66,7 @@ Results (5 run(s), 0 warmup(s)):
 ### Trend Analysis
 ```
 ╔════════════════════════════════════════════════════════════════╗
-║                    Trend Analysis: TestProgram                ║
+║                    Trend Analysis: TestProgram                 ║
 ╚════════════════════════════════════════════════════════════════╝
 
 Overall Trend: ⚠️ Degrading

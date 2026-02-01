@@ -5,7 +5,7 @@
         public static void ShowUsage()
         {
             Console.WriteLine("╔════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("║           PerfReg - Performance Regression Detector           ║");
+            Console.WriteLine("║           PerfReg - Performance Regression Detector            ║");
             Console.WriteLine("╚════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
             Console.WriteLine("USAGE:");

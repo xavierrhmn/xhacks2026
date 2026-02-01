@@ -1,4 +1,4 @@
-﻿namespace PerfReg
+namespace PerfReg
 {
     public static class HelpMenu
     {
@@ -27,6 +27,7 @@
             Console.WriteLine("RUN OPTIONS:");
             Console.WriteLine("  --runs N                         Run benchmark N times (default: 1)");
             Console.WriteLine("  --warmup N                       Run N warmup iterations (default: 0)");
+            Console.WriteLine("  --threshold N                    Regression threshold percentage (default: 5)");
             Console.WriteLine("  --fail-on-regression             Exit with code 1 if regression detected");
             Console.WriteLine();
             Console.WriteLine("EXAMPLES:");

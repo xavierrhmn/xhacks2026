@@ -10,7 +10,6 @@ public class RunCommand : ICommand
 {
     private readonly IBenchmarkRunner _runner;
     private readonly IHistoryStorage _storage;
-    private readonly IResultAnalyzer _analyzer;
     private readonly IReporter _reporter;
     private readonly PerfRegConfig _config;
 
@@ -20,13 +19,12 @@ public class RunCommand : ICommand
     public RunCommand(
         IBenchmarkRunner runner,
         IHistoryStorage storage,
-        IResultAnalyzer analyzer,
+        IResultAnalyzer analyzer,  // Keep for interface compatibility, but we create our own
         IReporter reporter,
         PerfRegConfig config)
     {
         _runner = runner;
         _storage = storage;
-        _analyzer = analyzer;
         _reporter = reporter;
         _config = config;
     }
@@ -42,7 +40,7 @@ public class RunCommand : ICommand
         }
 
         // Parse arguments
-        var (binary, binaryArgs, runs, warmupRuns, failOnRegression) = ParseArguments(args);
+        var (binary, binaryArgs, runs, warmupRuns, failOnRegression, threshold) = ParseArguments(args);
 
         Console.WriteLine($"Running benchmark: {binary}");
         if (runs > 1 || warmupRuns > 0)
@@ -66,7 +64,9 @@ public class RunCommand : ICommand
             if (history.Results.Count > 1)
             {
                 Console.WriteLine();
-                var comparison = _analyzer.Compare(
+                // Create analyzer with the specified threshold
+                var analyzer = new ComparisonAnalyzer(threshold);
+                var comparison = analyzer.Compare(
                     history.Results[^1],
                     history.Results[^2]
                 );
@@ -93,13 +93,14 @@ public class RunCommand : ICommand
         }
     }
 
-    private (string binary, string[] binaryArgs, int runs, int warmupRuns, bool failOnRegression) ParseArguments(string[] args)
+    private (string binary, string[] binaryArgs, int runs, int warmupRuns, bool failOnRegression, double threshold) ParseArguments(string[] args)
     {
         string binary = "";
         var binaryArgs = new List<string>();
         int runs = _config.DefaultRuns;
         int warmupRuns = _config.DefaultWarmupRuns;
         bool failOnRegression = _config.FailOnRegression;
+        double threshold = 5.0;  // Default 5%
 
         for (int i = 0; i < args.Length; i++)
         {
@@ -119,6 +120,14 @@ public class RunCommand : ICommand
                     i++; // Skip next arg
                 }
             }
+            else if (args[i] == "--threshold" && i + 1 < args.Length)
+            {
+                if (double.TryParse(args[i + 1], out double t) && t > 0)
+                {
+                    threshold = t;
+                    i++; // Skip next arg
+                }
+            }
             else if (args[i] == "--fail-on-regression")
             {
                 failOnRegression = true;
@@ -133,6 +142,6 @@ public class RunCommand : ICommand
             }
         }
 
-        return (binary, binaryArgs.ToArray(), runs, warmupRuns, failOnRegression);
+        return (binary, binaryArgs.ToArray(), runs, warmupRuns, failOnRegression, threshold);
     }
 }

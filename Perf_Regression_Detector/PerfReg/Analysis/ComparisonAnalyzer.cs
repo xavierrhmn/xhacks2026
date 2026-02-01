@@ -4,7 +4,12 @@ namespace PerfReg.Analysis;
 
 public class ComparisonAnalyzer : IResultAnalyzer
 {
-    private const double RegressionThreshold = 5.0;
+    private readonly double _regressionThreshold;
+
+    public ComparisonAnalyzer(double regressionThreshold = 5.0)
+    {
+        _regressionThreshold = regressionThreshold;
+    }
 
     public ComparisonReport Compare(BenchmarkResult current, BenchmarkResult previous)
     {
@@ -36,8 +41,8 @@ public class ComparisonAnalyzer : IResultAnalyzer
         };
 
         var isRegression = lowerIsBetter
-            ? percentageChange > RegressionThreshold
-            : percentageChange < -RegressionThreshold;
+            ? percentageChange > _regressionThreshold
+            : percentageChange < -_regressionThreshold;
 
         return new MetricComparison(
             Name: name,

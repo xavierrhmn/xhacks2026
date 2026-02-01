@@ -11,6 +11,9 @@ class Program
 {
     static async Task<int> Main(string[] args)
     {
+        // Enable UTF-8 output for special characters (sparklines, box drawing)
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
         if (args.Length == 0)
         {
             HelpMenu.ShowUsage();

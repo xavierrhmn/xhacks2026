@@ -5,4 +5,5 @@ namespace PerfReg.Core;
 public interface IBenchmarkRunner
 {
     Task<BenchmarkResult> RunAsync(string binary, string[] args);
+    Task<BenchmarkResult> RunAsync(string binary, string[] args, int runs, int warmupRuns);
 }

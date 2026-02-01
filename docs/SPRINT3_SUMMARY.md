@@ -124,7 +124,7 @@ Results (5 run(s), 0 warmup(s)):
 **Example usage:**
 ```bash
 # Compare against commit from 2 weeks ago
-dotnet run --project PerfReg compare-historical abc1234
+perfreg compare-historical abc1234
 
 # Shows progression with sparkline
 Runtime trend: ▁▁▆▅▂█
@@ -166,13 +166,13 @@ Peak Memory    : 24.61MB   (  +17.9%) ⚠️
 **Example usage:**
 ```bash
 # Show last 10 runs (default)
-dotnet run --project PerfReg trend
+perfreg trend
 
 # Show last 20 runs
-dotnet run --project PerfReg trend --window 20
+perfreg trend --window 20
 
 # Specific program
-dotnet run --project PerfReg trend MyApp
+perfreg trend MyApp
 ```
 
 ## Files Created/Modified
@@ -203,7 +203,7 @@ dotnet run --project PerfReg trend MyApp
 
 ### Test 1: Trend Analysis
 ```bash
-dotnet run --project PerfReg trend
+perfreg trend
 
 # Output shows:
 ✓ Overall trend direction
@@ -216,7 +216,7 @@ dotnet run --project PerfReg trend
 
 ### Test 2: Percentile Tracking
 ```bash
-dotnet run --project PerfReg run MyApp.exe --runs 10
+perfreg run MyApp.exe --runs 10
 
 # Output includes:
 [p50: 242.54ms, p95: 257.46ms, p99: 259.58ms]
@@ -225,7 +225,7 @@ dotnet run --project PerfReg run MyApp.exe --runs 10
 
 ### Test 3: Historical Comparison
 ```bash
-dotnet run --project PerfReg compare-historical 8101732
+perfreg compare-historical 8101732
 
 # Shows comparison with trend sparkline
 Runtime trend: ▁▁▆▅▂█
@@ -329,7 +329,7 @@ while (true) {
 ### Scenario 1: Detecting Gradual Degradation
 ```bash
 # After many commits, performance slowly degrades
-dotnet run --project PerfReg trend
+perfreg trend
 
 # Output clearly shows trend:
 Overall Trend: ⚠️ Degrading
@@ -345,7 +345,7 @@ p50: 150ms, p95: 180ms, p99: 450ms  # ⚠️ Tail latency issue!
 ### Scenario 3: Historical Analysis
 ```bash
 # When did performance start degrading?
-dotnet run --project PerfReg compare-historical <old-commit>
+perfreg compare-historical <old-commit>
 
 # Shows exact difference from known good state
 ```
@@ -395,10 +395,10 @@ compare-historical <commit>      Compare against specific commit
 Examples added:
 ```
 Show trend analysis with charts:
-  dotnet run --project PerfReg trend
+  perfreg trend
 
 Compare against specific commit:
-  dotnet run --project PerfReg compare-historical abc1234
+  perfreg compare-historical abc1234
 ```
 
 ## Next Steps (Sprint 4+)

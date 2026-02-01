@@ -14,7 +14,7 @@ cd Perf_Regression_Detector
 Run a simple benchmark to establish baseline performance.
 
 ```bash
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
 ```
 
 **What you'll see:**
@@ -28,7 +28,7 @@ dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
 Run the benchmark 10 times to get statistical analysis.
 
 ```bash
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
 ```
 
 **What you'll see:**
@@ -41,7 +41,7 @@ dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --run
 Use warmup runs to let JIT compilation stabilize before measuring.
 
 ```bash
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10 --warmup 3
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10 --warmup 3
 ```
 
 **What you'll see:**
@@ -54,13 +54,13 @@ Run the benchmark twice with different scenarios and compare.
 
 ```bash
 # First run - fast scenario
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
 
 # Second run - slow scenario
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
 
 # Compare the results
-dotnet run --project PerfReg compare
+perfreg compare
 ```
 
 **What you'll see:**
@@ -73,7 +73,7 @@ dotnet run --project PerfReg compare
 See all benchmark runs for your application.
 
 ```bash
-dotnet run --project PerfReg history
+perfreg history
 ```
 
 **What you'll see:**
@@ -87,14 +87,14 @@ This is where it gets visually impressive! Generate beautiful ASCII charts.
 
 ```bash
 # Run multiple times to build history
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 5
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 5
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 5
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 5
 
 # Show trend analysis
-dotnet run --project PerfReg trend DemoApp
+perfreg trend DemoApp
 ```
 
 **What you'll see:**
@@ -109,7 +109,7 @@ dotnet run --project PerfReg trend DemoApp
 Demonstrate why P95/P99 metrics matter.
 
 ```bash
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe variable --runs 20
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe variable --runs 20
 ```
 
 **What you'll see:**
@@ -123,17 +123,17 @@ Set a performance baseline and compare against it.
 
 ```bash
 # Set baseline with fast scenario
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
-dotnet run --project PerfReg baseline set
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
+perfreg baseline set
 
 # Show current baseline
-dotnet run --project PerfReg baseline show
+perfreg baseline show
 
 # Run slower scenario
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 5
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 5
 
 # Compare against baseline
-dotnet run --project PerfReg baseline compare
+perfreg baseline compare
 ```
 
 **What you'll see:**
@@ -150,10 +150,10 @@ Compare performance against a specific git commit.
 git log --oneline -5
 
 # Run current benchmark
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
 
 # Compare against older commit (replace abc1234 with actual commit hash)
-dotnet run --project PerfReg compare-historical abc1234
+perfreg compare-historical abc1234
 ```
 
 **What you'll see:**
@@ -166,7 +166,7 @@ dotnet run --project PerfReg compare-historical abc1234
 Show GC collection tracking.
 
 ```bash
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe memory --runs 5
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe memory --runs 5
 ```
 
 **What you'll see:**
@@ -180,11 +180,11 @@ Simulate a CI/CD pipeline with fail-on-regression.
 
 ```bash
 # Set a good baseline
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
-dotnet run --project PerfReg baseline set
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
+perfreg baseline set
 
 # Run with regression detection
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 5 --fail-on-regression
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 5 --fail-on-regression
 
 # Check exit code
 echo $LASTEXITCODE
@@ -200,7 +200,7 @@ echo $LASTEXITCODE
 Export data for dashboards or custom tooling.
 
 ```bash
-dotnet run --project PerfReg export DemoApp > demo-results.json
+perfreg export DemoApp > demo-results.json
 ```
 
 **What you'll see:**
@@ -213,11 +213,11 @@ Create and use a configuration file for project-specific settings.
 
 ```bash
 # Generate default config
-dotnet run --project PerfReg config
+perfreg config
 
 # Edit .perfreg.json to customize thresholds
 # Then run benchmarks - settings automatically applied
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
 ```
 
 **What you'll see:**
@@ -231,21 +231,21 @@ Full development workflow showing real-world usage.
 
 ```bash
 # 1. Initial benchmark (feature branch)
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
-dotnet run --project PerfReg baseline set
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
+perfreg baseline set
 
 # 2. Make code changes (simulated by switching scenario)
 # Simulate optimization
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
 
 # 3. Compare against baseline
-dotnet run --project PerfReg baseline compare
+perfreg baseline compare
 
 # 4. View trends
-dotnet run --project PerfReg trend DemoApp
+perfreg trend DemoApp
 
 # 5. Export for records
-dotnet run --project PerfReg export DemoApp > performance-report.json
+perfreg export DemoApp > performance-report.json
 ```
 
 ## Quick Demo Script
@@ -254,35 +254,35 @@ For a fast 2-minute demo showing the highlights:
 
 ```bash
 # Clean slate
-dotnet run --project PerfReg clear
+perfreg clear
 
 # Run 1: Basic benchmark
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
 
 # Run 2: With statistics
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
 
 # Run 3: Create regression
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 10
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 10
 
 # Compare
-dotnet run --project PerfReg compare
+perfreg compare
 
 # Run a few more for trend data
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
 
 # Show trends with beautiful charts
-dotnet run --project PerfReg trend DemoApp
+perfreg trend DemoApp
 ```
 
 ## Pro Tips
 
 1. **Terminal Width**: Use a terminal at least 80 characters wide for best chart rendering
 2. **Color Support**: Use a modern terminal (Windows Terminal, iTerm2, etc.) for color-coded output
-3. **Data Reset**: Use `dotnet run --project PerfReg clear` to start fresh between demos
-4. **Baseline Management**: Clear baselines with `dotnet run --project PerfReg baseline clear`
+3. **Data Reset**: Use `perfreg clear` to start fresh between demos
+4. **Baseline Management**: Clear baselines with `perfreg baseline clear`
 
 ## Feature Showcase Summary
 

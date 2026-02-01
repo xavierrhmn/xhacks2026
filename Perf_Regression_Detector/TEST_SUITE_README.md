@@ -10,22 +10,22 @@ A configurable demo application with four performance scenarios:
 
 1. **fast** - Lightweight computation (~50ms)
    ```bash
-   dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
+   perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
    ```
 
 2. **slow** - Heavy computation (~300ms)
    ```bash
-   dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
+   perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
    ```
 
 3. **memory** - Memory-intensive workload (50MB allocation)
    ```bash
-   dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe memory
+   perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe memory
    ```
 
 4. **variable** - Variable performance with high variance
    ```bash
-   dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe variable --runs 20
+   perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe variable --runs 20
    ```
 
 ## Automated Demo Scripts
@@ -57,33 +57,33 @@ Takes about 30 seconds to complete.
 ### Quick 2-Minute Demo
 ```bash
 # Clean slate
-dotnet run --project PerfReg clear
+perfreg clear
 
 # Basic benchmark
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 10
 
 # Show statistics
-dotnet run --project PerfReg history
+perfreg history
 
 # Create regression
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 10
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --runs 10
 
 # Compare
-dotnet run --project PerfReg compare
+perfreg compare
 
 # Build more history
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast
 
 # Show impressive charts
-dotnet run --project PerfReg trend DemoApp
+perfreg trend DemoApp
 ```
 
 ### Testing Percentiles (Tail Latency)
 ```bash
 # Variable scenario shows importance of P95/P99
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe variable --runs 30
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe variable --runs 30
 ```
 
 You'll see P99 significantly higher than median, demonstrating tail latency.
@@ -91,11 +91,11 @@ You'll see P99 significantly higher than median, demonstrating tail latency.
 ### Testing CI/CD Integration
 ```bash
 # Set baseline
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
-dotnet run --project PerfReg baseline set
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe fast --runs 5
+perfreg baseline set
 
 # Test regression detection
-dotnet run --project PerfReg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --fail-on-regression
+perfreg run DemoApp/bin/Debug/net8.0/DemoApp.exe slow --fail-on-regression
 echo $?  # Should be 1 (failure)
 ```
 
@@ -128,8 +128,8 @@ dotnet build
 
 To start fresh:
 ```bash
-dotnet run --project PerfReg clear
-dotnet run --project PerfReg baseline clear
+perfreg clear
+perfreg baseline clear
 ```
 
 This removes all benchmark history and baselines.

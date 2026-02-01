@@ -104,28 +104,28 @@ Shows distribution of 21 data points
 
 ### Run a benchmark
 ```bash
-dotnet run --project PerfReg run MyApp.exe
+perfreg run MyApp.exe
 ```
 
 ### Run with multiple iterations for statistics
 ```bash
-dotnet run --project PerfReg run MyApp.exe --runs 10 --warmup 2
+perfreg run MyApp.exe --runs 10 --warmup 2
 ```
 
 ### Compare with previous run
 ```bash
-dotnet run --project PerfReg compare
+perfreg compare
 ```
 
 ### View performance trends with charts
 ```bash
-dotnet run --project PerfReg trend
+perfreg trend
 ```
 
 ### Set a baseline and fail on regression (CI/CD)
 ```bash
-dotnet run --project PerfReg baseline set
-dotnet run --project PerfReg run MyApp.exe --fail-on-regression
+perfreg baseline set
+perfreg run MyApp.exe --fail-on-regression
 ```
 
 ## Installation
@@ -134,16 +134,50 @@ dotnet run --project PerfReg run MyApp.exe --fail-on-regression
 - .NET 8.0 SDK or later
 - Git (optional, for commit tracking)
 
-### Clone and Build
+### Install as Global Tool (Recommended)
+
 ```bash
+# Clone the repository
 git clone https://github.com/yourusername/perfreg.git
 cd perfreg/Perf_Regression_Detector
-dotnet build
+
+# Build and pack the tool
+dotnet pack PerfReg -c Release -o ./nupkg
+
+# Install globally
+dotnet tool install --global --add-source ./nupkg PerfReg
+
+# Now you can use it anywhere!
+perfreg help
+```
+
+### Install as Local Tool (Project-Specific)
+
+```bash
+# In your project directory
+dotnet new tool-manifest  # if you don't have one
+dotnet tool install --local --add-source ./nupkg PerfReg
+
+# Run with dotnet prefix
+dotnet perfreg help
+```
+
+### Updating the Tool
+
+```bash
+# Update to latest version
+dotnet tool update --global PerfReg --add-source ./nupkg
+```
+
+### Uninstalling
+
+```bash
+dotnet tool uninstall --global PerfReg
 ```
 
 ### Create Configuration (Optional)
 ```bash
-dotnet run --project PerfReg config
+perfreg config
 ```
 
 This creates `.perfreg.json`:
@@ -174,23 +208,23 @@ Run a benchmark and store results.
 **Examples:**
 ```bash
 # Single run
-dotnet run --project PerfReg run MyApp.exe
+perfreg run MyApp.exe
 
 # With arguments
-dotnet run --project PerfReg run MyApp.exe arg1 arg2
+perfreg run MyApp.exe arg1 arg2
 
 # Multiple runs with warmup
-dotnet run --project PerfReg run MyApp.exe --runs 10 --warmup 3
+perfreg run MyApp.exe --runs 10 --warmup 3
 
 # Fail on regression (for CI/CD)
-dotnet run --project PerfReg run MyApp.exe --fail-on-regression
+perfreg run MyApp.exe --fail-on-regression
 ```
 
 #### `compare`
 Compare the last two benchmark runs.
 
 ```bash
-dotnet run --project PerfReg compare
+perfreg compare
 ```
 
 **Output:**
@@ -207,7 +241,7 @@ Peak Memory    : 21.45MB   (   +2.1%) →
 Show performance history for all programs.
 
 ```bash
-dotnet run --project PerfReg history
+perfreg history
 ```
 
 #### `trend [program] [--window N]`
@@ -218,17 +252,17 @@ Show performance trends with charts.
 
 ```bash
 # Show trends for all programs (last 10 runs)
-dotnet run --project PerfReg trend
+perfreg trend
 
 # Specific program with custom window
-dotnet run --project PerfReg trend MyApp --window 20
+perfreg trend MyApp --window 20
 ```
 
 #### `compare-historical <commit>`
 Compare current performance against a specific commit.
 
 ```bash
-dotnet run --project PerfReg compare-historical abc1234
+perfreg compare-historical abc1234
 ```
 
 **Output:**
@@ -253,28 +287,28 @@ Peak Memory    : 24.61MB   (  +17.9%) ⚠️
 Set current run as baseline for future comparisons.
 
 ```bash
-dotnet run --project PerfReg baseline set
+perfreg baseline set
 ```
 
 #### `baseline compare`
 Compare latest run against baseline.
 
 ```bash
-dotnet run --project PerfReg baseline compare
+perfreg baseline compare
 ```
 
 #### `baseline show`
 Display current baseline.
 
 ```bash
-dotnet run --project PerfReg baseline show
+perfreg baseline show
 ```
 
 #### `baseline clear`
 Remove baseline.
 
 ```bash
-dotnet run --project PerfReg baseline clear
+perfreg baseline clear
 ```
 
 ### Utility Commands
@@ -284,38 +318,38 @@ Export benchmark data as JSON.
 
 ```bash
 # Export all programs
-dotnet run --project PerfReg export > results.json
+perfreg export > results.json
 
 # Export specific program
-dotnet run --project PerfReg export MyApp > myapp-results.json
+perfreg export MyApp > myapp-results.json
 ```
 
 #### `clear`
 Clear all benchmark history.
 
 ```bash
-dotnet run --project PerfReg clear
+perfreg clear
 ```
 
 #### `config`
 Create default `.perfreg.json` configuration file.
 
 ```bash
-dotnet run --project PerfReg config
+perfreg config
 ```
 
 #### `help`
 Show help menu.
 
 ```bash
-dotnet run --project PerfReg help
+perfreg help
 ```
 
 #### `version`
 Show version information.
 
 ```bash
-dotnet run --project PerfReg version
+perfreg version
 ```
 
 ## Tracked Metrics
@@ -331,27 +365,27 @@ dotnet run --project PerfReg version
 ### 1. Development Workflow
 ```bash
 # Before making changes
-dotnet run --project PerfReg baseline set
+perfreg baseline set
 
 # Make code changes...
 
 # After changes
-dotnet run --project PerfReg run MyApp.exe --runs 10
-dotnet run --project PerfReg baseline compare
+perfreg run MyApp.exe --runs 10
+perfreg baseline compare
 ```
 
 ### 2. CI/CD Pipeline
 ```yaml
 # GitHub Actions example
 - name: Run Performance Tests
-  run: dotnet run --project PerfReg run MyApp.exe --runs 5 --fail-on-regression
+  run: perfreg run MyApp.exe --runs 5 --fail-on-regression
 ```
 
 ### 3. Trend Monitoring
 ```bash
 # Regular monitoring
-dotnet run --project PerfReg run MyApp.exe --runs 5
-dotnet run --project PerfReg trend
+perfreg run MyApp.exe --runs 5
+perfreg trend
 
 # Check for gradual degradation
 # If Overall Trend shows "Degrading", investigate!
@@ -360,7 +394,7 @@ dotnet run --project PerfReg trend
 ### 4. Release Validation
 ```bash
 # Compare against release branch
-dotnet run --project PerfReg compare-historical <release-commit>
+perfreg compare-historical <release-commit>
 
 # Ensure no significant regression before release
 ```
@@ -368,7 +402,7 @@ dotnet run --project PerfReg compare-historical <release-commit>
 ### 5. Tail Latency Investigation
 ```bash
 # Run multiple times to get percentiles
-dotnet run --project PerfReg run MyApp.exe --runs 50
+perfreg run MyApp.exe --runs 50
 
 # Check P95/P99 values
 # If P99 >> median, you have tail latency issues
@@ -437,7 +471,7 @@ jobs:
 
       - name: Run Performance Benchmark
         run: |
-          dotnet run --project PerfReg run MyApp/bin/Debug/net8.0/MyApp.exe --runs 10 --fail-on-regression
+          perfreg run MyApp/bin/Debug/net8.0/MyApp.exe --runs 10 --fail-on-regression
 ```
 
 ### Exit Codes
@@ -447,8 +481,8 @@ jobs:
 ### Markdown Reports
 ```bash
 # Generate markdown report
-dotnet run --project PerfReg run MyApp.exe --runs 5
-dotnet run --project PerfReg compare --format markdown > report.md
+perfreg run MyApp.exe --runs 5
+perfreg compare --format markdown > report.md
 ```
 
 ## Development Sprints
@@ -516,12 +550,12 @@ Built for XHacks 2026 - Demonstrating modern .NET performance monitoring techniq
 
 ## Documentation
 
-- [USAGE_GUIDE.md](USAGE_GUIDE.md) - Comprehensive usage guide
-- [ARCHITECTURE.md](ARCHITECTURE.md) - Architecture documentation
-- [ROADMAP.md](ROADMAP.md) - Development roadmap
-- [SPRINT1_SUMMARY.md](SPRINT1_SUMMARY.md) - Sprint 1 details
-- [SPRINT2_SUMMARY.md](SPRINT2_SUMMARY.md) - Sprint 2 details
-- [SPRINT3_SUMMARY.md](SPRINT3_SUMMARY.md) - Sprint 3 details
+- [Usage Guide](docs/USAGE_GUIDE.md) - Comprehensive usage guide
+- [Architecture](docs/ARCHITECTURE.md) - Architecture documentation
+- [Roadmap](docs/ROADMAP.md) - Development roadmap
+- [Sprint 1 Summary](docs/SPRINT1_SUMMARY.md) - Sprint 1 details
+- [Sprint 2 Summary](docs/SPRINT2_SUMMARY.md) - Sprint 2 details
+- [Sprint 3 Summary](docs/SPRINT3_SUMMARY.md) - Sprint 3 details
 
 ## Troubleshooting
 
@@ -529,13 +563,13 @@ Built for XHacks 2026 - Demonstrating modern .NET performance monitoring techniq
 Make sure you're running from the correct directory:
 ```bash
 cd Perf_Regression_Detector
-dotnet run --project PerfReg <command>
+perfreg <command>
 ```
 
 ### "File not found" when running benchmark
 Provide the full path to the executable:
 ```bash
-dotnet run --project PerfReg run /full/path/to/MyApp.exe
+perfreg run /full/path/to/MyApp.exe
 ```
 
 ### Charts not displaying correctly

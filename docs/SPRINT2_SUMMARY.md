@@ -17,7 +17,7 @@ Sprint 2 focused on CI/CD integration, making PerfReg suitable for automated pip
 
 **Example usage:**
 ```bash
-dotnet run --project PerfReg run MyApp.exe --fail-on-regression
+perfreg run MyApp.exe --fail-on-regression
 # Exit code 0 = no regression
 # Exit code 1 = regression detected
 ```
@@ -50,13 +50,13 @@ Peak Memory    : 24.59MB   (  +17.9%) ⚠️
 ```bash
 # On main branch, set baseline
 git checkout main
-dotnet run --project PerfReg run MyApp.exe --runs 5
-dotnet run --project PerfReg baseline set
+perfreg run MyApp.exe --runs 5
+perfreg baseline set
 
 # On feature branch, compare
 git checkout feature/optimization
-dotnet run --project PerfReg run MyApp.exe --runs 5
-dotnet run --project PerfReg baseline compare
+perfreg run MyApp.exe --runs 5
+perfreg baseline compare
 ```
 
 **Example output:**
@@ -88,13 +88,13 @@ Peak Memory    : 24.53MB   (  +18.1%) ⚠️
 **Example usage:**
 ```bash
 # Export to file
-dotnet run --project PerfReg export > results.json
+perfreg export > results.json
 
 # Export specific program
-dotnet run --project PerfReg export MyApp > myapp-results.json
+perfreg export MyApp > myapp-results.json
 
 # Pipe to analysis tool
-dotnet run --project PerfReg export | jq '.Results[-1].RuntimeMs'
+perfreg export | jq '.Results[-1].RuntimeMs'
 ```
 
 **Output format:**
@@ -161,7 +161,7 @@ dotnet run --project PerfReg export | jq '.Results[-1].RuntimeMs'
 - name: Run Benchmarks
   run: |
     cd Perf_Regression_Detector
-    dotnet run --project PerfReg run MyApp.exe --runs 5 --fail-on-regression
+    perfreg run MyApp.exe --runs 5 --fail-on-regression
 ```
 
 ## Files Created/Modified
@@ -194,10 +194,10 @@ dotnet run --project PerfReg export | jq '.Results[-1].RuntimeMs'
 ### Test 1: Fail on Regression
 ```bash
 # Run fast version
-dotnet run --project PerfReg run TestProgram.exe 1 --runs 2
+perfreg run TestProgram.exe 1 --runs 2
 
 # Run slow version with fail flag
-dotnet run --project PerfReg run TestProgram.exe 2 --runs 2 --fail-on-regression
+perfreg run TestProgram.exe 2 --runs 2 --fail-on-regression
 
 # Output:
 Runtime        : 310.82ms   (  +21.6%) ⚠️
@@ -208,7 +208,7 @@ Exit code: 1  ✅ PASS
 ### Test 2: Baseline Management
 ```bash
 # Set baseline
-dotnet run --project PerfReg baseline set
+perfreg baseline set
 # Output: ✓ Baseline set for TestProgram
           Commit: b064922
           Runtime: 212.32ms
@@ -216,18 +216,18 @@ dotnet run --project PerfReg baseline set
 ✅ PASS
 
 # Show baseline
-dotnet run --project PerfReg baseline show
+perfreg baseline show
 ✅ PASS
 
 # Compare against baseline
-dotnet run --project PerfReg baseline compare
+perfreg baseline compare
 # Shows comparison with original baseline
 ✅ PASS
 ```
 
 ### Test 3: JSON Export
 ```bash
-dotnet run --project PerfReg export
+perfreg export
 # Output: Valid JSON with full history
 ✅ PASS
 ```
@@ -235,11 +235,11 @@ dotnet run --project PerfReg export
 ### Test 4: Exit Codes
 ```bash
 # No regression case
-dotnet run --project PerfReg run TestProgram.exe 1 --runs 2
+perfreg run TestProgram.exe 1 --runs 2
 echo $?  # Exit code: 0 ✅
 
 # Regression case
-dotnet run --project PerfReg run TestProgram.exe 2 --runs 2 --fail-on-regression
+perfreg run TestProgram.exe 2 --runs 2 --fail-on-regression
 echo $?  # Exit code: 1 ✅
 ```
 
@@ -263,7 +263,7 @@ jobs:
       - name: Benchmark
         run: |
           cd Perf_Regression_Detector
-          dotnet run --project PerfReg run ../MyApp/bin/Debug/net8.0/MyApp.dll \
+          perfreg run ../MyApp/bin/Debug/net8.0/MyApp.dll \
             --runs 5 \
             --fail-on-regression
 
@@ -271,7 +271,7 @@ jobs:
         if: always()
         run: |
           cd Perf_Regression_Detector
-          dotnet run --project PerfReg export > benchmark-results.json
+          perfreg export > benchmark-results.json
 
       - name: Upload Results
         if: always()
@@ -286,7 +286,7 @@ jobs:
 benchmark:
   script:
     - cd Perf_Regression_Detector
-    - dotnet run --project PerfReg run ../MyApp/bin/Debug/net8.0/MyApp.dll --runs 5 --fail-on-regression
+    - perfreg run ../MyApp/bin/Debug/net8.0/MyApp.dll --runs 5 --fail-on-regression
   artifacts:
     when: always
     paths:
@@ -409,28 +409,28 @@ Updated `.perfreg.json`:
 ```bash
 # On main, set baseline
 git checkout main
-dotnet run --project PerfReg run MyApp.exe --runs 10
-dotnet run --project PerfReg baseline set
+perfreg run MyApp.exe --runs 10
+perfreg baseline set
 
 # On feature branch
 git checkout feature/optimization
-dotnet run --project PerfReg run MyApp.exe --runs 10 --fail-on-regression
+perfreg run MyApp.exe --runs 10 --fail-on-regression
 # CI fails if regression detected
 ```
 
 ### Scenario 2: Release Validation
 ```bash
 # Before release, run comprehensive benchmark
-dotnet run --project PerfReg run MyApp.exe --runs 20 --warmup 5 --fail-on-regression
+perfreg run MyApp.exe --runs 20 --warmup 5 --fail-on-regression
 
 # Export for documentation
-dotnet run --project PerfReg export > release-v2.0-benchmark.json
+perfreg export > release-v2.0-benchmark.json
 ```
 
 ### Scenario 3: Dashboard Integration
 ```bash
 # Export to time-series database
-dotnet run --project PerfReg export | \
+perfreg export | \
   jq '.Results[] | {time: .Timestamp, runtime: .RuntimeMs, memory: .PeakMemoryBytes}' | \
   curl -XPOST http://metrics-server/api/benchmarks -d @-
 ```

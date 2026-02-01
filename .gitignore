@@ -482,3 +482,11 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Build artifacts
+nupkg/
+*.nupkg
+
+# PerfReg benchmark data (generated at runtime)
+*.benchmark.json
+.perfreg.json

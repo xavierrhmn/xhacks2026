@@ -1,0 +1,53 @@
+{
+  "CommitHash": "67ead17",
+  "Timestamp": "2026-02-01T17:40:32.2630107Z",
+  "RuntimeMs": 147.80526666666665,
+  "PeakMemoryBytes": 16302080,
+  "Gen0Collections": 0,
+  "Gen1Collections": 0,
+  "Gen2Collections": 0,
+  "Statistics": {
+    "TotalRuns": 3,
+    "WarmupRuns": 0,
+    "Runtime": {
+      "Mean": 147.80526666666665,
+      "Median": 145.7543,
+      "StdDev": 4.698977901983925,
+      "Min": 144.4804,
+      "Max": 153.1811,
+      "P50": 145.7543,
+      "P95": 152.43841999999998,
+      "P99": 153.03256399999998
+    },
+    "Memory": {
+      "Mean": 16302080,
+      "Median": 16306176,
+      "StdDev": 18770.23004653912,
+      "Min": 16281600,
+      "Max": 16318464,
+      "P50": 16306176,
+      "P95": 16317235.2,
+      "P99": 16318218.24
+    },
+    "GarbageCollection": {
+      "Gen0": {
+        "Mean": 0,
+        "Median": 0,
+        "Min": 0,
+        "Max": 0
+      },
+      "Gen1": {
+        "Mean": 0,
+        "Median": 0,
+        "Min": 0,
+        "Max": 0
+      },
+      "Gen2": {
+        "Mean": 0,
+        "Median": 0,
+        "Min": 0,
+        "Max": 0
+      }
+    }
+  }
+}

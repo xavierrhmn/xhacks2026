@@ -7,20 +7,20 @@ PerfReg is a comprehensive performance regression detection tool that helps you 
 
 ```bash
 # Run a single benchmark
-dotnet run --project PerfReg run ./MyApp.exe
+perfreg run ./MyApp.exe
 
 # Run with multiple iterations for accurate results
-dotnet run --project PerfReg run ./MyApp.exe --runs 10
+perfreg run ./MyApp.exe --runs 10
 
 # Run with warmup to handle JIT compilation
-dotnet run --project PerfReg run ./MyApp.exe --runs 10 --warmup 3
+perfreg run ./MyApp.exe --runs 10 --warmup 3
 
 # View performance trends with charts
-dotnet run --project PerfReg trend
+perfreg trend
 
 # Set baseline and fail CI on regression
-dotnet run --project PerfReg baseline set
-dotnet run --project PerfReg run ./MyApp.exe --fail-on-regression
+perfreg baseline set
+perfreg run ./MyApp.exe --fail-on-regression
 ```
 
 ## Commands
@@ -31,7 +31,7 @@ Run a benchmark and store results. Automatically compares with previous run if a
 
 **Basic usage:**
 ```bash
-dotnet run --project PerfReg run <binary> [args...]
+perfreg run <binary> [args...]
 ```
 
 **Options:**
@@ -42,19 +42,19 @@ dotnet run --project PerfReg run <binary> [args...]
 **Examples:**
 ```bash
 # Single run
-dotnet run --project PerfReg run ./MyApp.exe
+perfreg run ./MyApp.exe
 
 # Pass arguments to your application
-dotnet run --project PerfReg run ./MyApp.exe input.txt --verbose
+perfreg run ./MyApp.exe input.txt --verbose
 
 # 10 runs for statistical confidence with percentiles
-dotnet run --project PerfReg run ./MyApp.exe --runs 10
+perfreg run ./MyApp.exe --runs 10
 
 # 3 warmup runs + 5 measured runs
-dotnet run --project PerfReg run ./MyApp.exe --runs 5 --warmup 3
+perfreg run ./MyApp.exe --runs 5 --warmup 3
 
 # Fail CI build on regression
-dotnet run --project PerfReg run ./MyApp.exe --runs 5 --fail-on-regression
+perfreg run ./MyApp.exe --runs 5 --fail-on-regression
 ```
 
 **What you'll see:**
@@ -73,7 +73,7 @@ dotnet run --project PerfReg run ./MyApp.exe --runs 5 --fail-on-regression
 Compare the last two benchmark runs for any tracked program.
 
 ```bash
-dotnet run --project PerfReg compare
+perfreg compare
 ```
 
 **Output:**
@@ -87,7 +87,7 @@ dotnet run --project PerfReg compare
 Visualize performance trends with beautiful terminal charts.
 
 ```bash
-dotnet run --project PerfReg trend [program] [--window N]
+perfreg trend [program] [--window N]
 ```
 
 **Options:**
@@ -105,7 +105,7 @@ dotnet run --project PerfReg trend [program] [--window N]
 **Example output:**
 ```
 ╔════════════════════════════════════════════════════════════════╗
-║                    Trend Analysis: MyApp                      ║
+║                    Trend Analysis: MyApp                       ║
 ╚════════════════════════════════════════════════════════════════╝
 
 Overall Trend: ✓ Improving
@@ -141,7 +141,7 @@ Quick View:
 Compare current performance against any previous commit.
 
 ```bash
-dotnet run --project PerfReg compare-historical <commit-hash> [program]
+perfreg compare-historical <commit-hash> [program]
 ```
 
 **Parameters:**
@@ -150,8 +150,8 @@ dotnet run --project PerfReg compare-historical <commit-hash> [program]
 
 **Example:**
 ```bash
-dotnet run --project PerfReg compare-historical abc1234
-dotnet run --project PerfReg compare-historical abc1234 MyApp
+perfreg compare-historical abc1234
+perfreg compare-historical abc1234 MyApp
 ```
 
 **What you'll see:**
@@ -174,19 +174,19 @@ Set and compare against stable performance baselines.
 ```bash
 # Set baseline on main branch
 git checkout main
-dotnet run --project PerfReg run ./MyApp.exe --runs 10
-dotnet run --project PerfReg baseline set
+perfreg run ./MyApp.exe --runs 10
+perfreg baseline set
 
 # On feature branch, compare against baseline
 git checkout feature/optimization
-dotnet run --project PerfReg run ./MyApp.exe --runs 10
-dotnet run --project PerfReg baseline compare
+perfreg run ./MyApp.exe --runs 10
+perfreg baseline compare
 
 # Show all baselines
-dotnet run --project PerfReg baseline show
+perfreg baseline show
 
 # Clear baseline
-dotnet run --project PerfReg baseline clear MyApp
+perfreg baseline clear MyApp
 ```
 
 **Use cases:**
@@ -199,22 +199,22 @@ dotnet run --project PerfReg baseline clear MyApp
 Export benchmark data in structured JSON format for tooling integration.
 
 ```bash
-dotnet run --project PerfReg export [program]
+perfreg export [program]
 ```
 
 **Examples:**
 ```bash
 # Export all programs
-dotnet run --project PerfReg export > results.json
+perfreg export > results.json
 
 # Export specific program
-dotnet run --project PerfReg export MyApp > myapp-results.json
+perfreg export MyApp > myapp-results.json
 
 # Pipe to jq for analysis
-dotnet run --project PerfReg export | jq '.Results[-1].RuntimeMs'
+perfreg export | jq '.Results[-1].RuntimeMs'
 
 # Send to monitoring system
-dotnet run --project PerfReg export | curl -X POST http://metrics.example.com/api/benchmarks -d @-
+perfreg export | curl -X POST http://metrics.example.com/api/benchmarks -d @-
 ```
 
 **Output format:**
@@ -256,7 +256,7 @@ dotnet run --project PerfReg export | curl -X POST http://metrics.example.com/ap
 Display historical benchmark data for all programs.
 
 ```bash
-dotnet run --project PerfReg history
+perfreg history
 ```
 
 **Shows:**
@@ -271,7 +271,7 @@ dotnet run --project PerfReg history
 Remove all benchmark history files.
 
 ```bash
-dotnet run --project PerfReg clear
+perfreg clear
 ```
 
 ⚠️ **Warning:** This permanently deletes all `.benchmark.json` files. Cannot be undone.
@@ -281,7 +281,7 @@ dotnet run --project PerfReg clear
 Generate a default `.perfreg.json` configuration file.
 
 ```bash
-dotnet run --project PerfReg config
+perfreg config
 ```
 
 ## Configuration File
@@ -404,7 +404,7 @@ This shows:
 **Example:**
 ```bash
 # .NET app with 3 warmup runs
-dotnet run --project PerfReg run MyApp.exe --runs 10 --warmup 3
+perfreg run MyApp.exe --runs 10 --warmup 3
 ```
 
 ### Interpreting Results
@@ -487,7 +487,7 @@ jobs:
       - name: Run Benchmarks
         run: |
           cd Perf_Regression_Detector
-          dotnet run --project PerfReg run ../MyApp/bin/Release/net8.0/MyApp.dll \
+          perfreg run ../MyApp/bin/Release/net8.0/MyApp.dll \
             --runs 10 \
             --warmup 3 \
             --fail-on-regression
@@ -503,7 +503,7 @@ jobs:
         if: always()
         run: |
           cd Perf_Regression_Detector
-          dotnet run --project PerfReg export > $GITHUB_WORKSPACE/benchmark-results.json
+          perfreg export > $GITHUB_WORKSPACE/benchmark-results.json
 
       - name: Upload JSON
         if: always()
@@ -520,7 +520,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           cd Perf_Regression_Detector
-          dotnet run --project PerfReg baseline set
+          perfreg baseline set
 ```
 
 ### GitLab CI
@@ -529,7 +529,7 @@ benchmark:
   stage: test
   script:
     - cd Perf_Regression_Detector
-    - dotnet run --project PerfReg run ../MyApp/bin/Release/net8.0/MyApp.dll --runs 10 --fail-on-regression
+    - perfreg run ../MyApp/bin/Release/net8.0/MyApp.dll --runs 10 --fail-on-regression
   artifacts:
     when: always
     paths:
@@ -645,44 +645,44 @@ Baselines are stored in `<program-name>.baseline.json` with the same format.
 ```bash
 # Run baseline on main branch
 git checkout main
-dotnet run --project PerfReg run MyApp.exe --runs 10
-dotnet run --project PerfReg baseline set
+perfreg run MyApp.exe --runs 10
+perfreg baseline set
 
 # Switch to feature branch
 git checkout feature-xyz
-dotnet run --project PerfReg run MyApp.exe --runs 10
+perfreg run MyApp.exe --runs 10
 
 # Compare shows difference
-dotnet run --project PerfReg baseline compare
+perfreg baseline compare
 ```
 
 ### Track Performance Over Time
 ```bash
 # Run benchmarks regularly and view trends
-dotnet run --project PerfReg run MyApp.exe --runs 10
+perfreg run MyApp.exe --runs 10
 
 # After multiple runs, visualize trends
-dotnet run --project PerfReg trend --window 20
+perfreg trend --window 20
 ```
 
 ### Analyze Historical Performance
 ```bash
 # Find when performance started degrading
 git log --oneline | head -10  # Get recent commits
-dotnet run --project PerfReg compare-historical <old-commit>
+perfreg compare-historical <old-commit>
 ```
 
 ### Export for Analysis
 ```bash
 # Export to CSV for spreadsheet analysis
-dotnet run --project PerfReg export | \
+perfreg export | \
   jq -r '.Results[] | [.Timestamp, .RuntimeMs, .PeakMemoryBytes] | @csv' > results.csv
 ```
 
 ### Dashboard Integration
 ```bash
 # Send metrics to time-series database
-dotnet run --project PerfReg export | \
+perfreg export | \
   jq '.Results[] | {time: .Timestamp, runtime: .RuntimeMs, memory: .PeakMemoryBytes}' | \
   while read line; do
     curl -XPOST http://metrics-server/api/benchmarks -d "$line"
@@ -710,11 +710,11 @@ Edit `.perfreg.json`:
 ```bash
 # Test multiple scenarios
 for version in v1 v2 v3 v4; do
-  dotnet run --project PerfReg run TestProgram.exe $version --runs 5
+  perfreg run TestProgram.exe $version --runs 5
 done
 
 # View combined trends
-dotnet run --project PerfReg trend
+perfreg trend
 ```
 
 ### Commit History to Git (Optional)
@@ -744,8 +744,8 @@ git commit -m "chore: update performance benchmarks"
 
 ## Support
 
-- **View all commands**: `dotnet run --project PerfReg help`
-- **Version info**: `dotnet run --project PerfReg version`
+- **View all commands**: `perfreg help`
+- **Version info**: `perfreg version`
 - **Documentation**: See SPRINT1_SUMMARY.md, SPRINT2_SUMMARY.md, SPRINT3_SUMMARY.md
 - **Roadmap**: See ROADMAP.md for future features
 

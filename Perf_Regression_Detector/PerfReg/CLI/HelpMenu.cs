@@ -9,7 +9,7 @@
             Console.WriteLine("╚════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
             Console.WriteLine("USAGE:");
-            Console.WriteLine("  dotnet run --project PerfReg <command> [options]");
+            Console.WriteLine("  perfreg <command> [options]");
             Console.WriteLine();
             Console.WriteLine("COMMANDS:");
             Console.WriteLine();
@@ -33,55 +33,55 @@
             Console.WriteLine();
             ShowExample(
                 "Run a benchmark",
-                "dotnet run --project PerfReg run MyApp.exe"
+                "perfreg run MyApp.exe"
             );
             ShowExample(
                 "Run with arguments",
-                "dotnet run --project PerfReg run MyApp.exe arg1 arg2"
+                "perfreg run MyApp.exe arg1 arg2"
             );
             ShowExample(
                 "Compare results",
-                "dotnet run --project PerfReg compare"
+                "perfreg compare"
             );
             ShowExample(
                 "View history",
-                "dotnet run --project PerfReg history"
+                "perfreg history"
             );
             ShowExample(
                 "Multiple runs with statistics",
-                "dotnet run --project PerfReg run MyApp.exe --runs 5"
+                "perfreg run MyApp.exe --runs 5"
             );
             ShowExample(
                 "With warmup runs",
-                "dotnet run --project PerfReg run MyApp.exe --runs 5 --warmup 2"
+                "perfreg run MyApp.exe --runs 5 --warmup 2"
             );
             ShowExample(
                 "Create config file",
-                "dotnet run --project PerfReg config"
+                "perfreg config"
             );
             ShowExample(
                 "Set baseline",
-                "dotnet run --project PerfReg baseline set"
+                "perfreg baseline set"
             );
             ShowExample(
                 "Compare against baseline",
-                "dotnet run --project PerfReg baseline compare"
+                "perfreg baseline compare"
             );
             ShowExample(
                 "Export as JSON",
-                "dotnet run --project PerfReg export > results.json"
+                "perfreg export > results.json"
             );
             ShowExample(
                 "Fail CI build on regression",
-                "dotnet run --project PerfReg run MyApp.exe --fail-on-regression"
+                "perfreg run MyApp.exe --fail-on-regression"
             );
             ShowExample(
                 "Show trend analysis with charts",
-                "dotnet run --project PerfReg trend"
+                "perfreg trend"
             );
             ShowExample(
                 "Compare against specific commit",
-                "dotnet run --project PerfReg compare-historical abc1234"
+                "perfreg compare-historical abc1234"
             );
             Console.WriteLine();
             Console.WriteLine("TRACKED METRICS:");

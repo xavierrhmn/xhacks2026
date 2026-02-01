@@ -92,19 +92,19 @@ All functionality has been verified:
 
 ```bash
 # Run a benchmark
-dotnet run --project PerfReg run ./MyApp.exe
+perfreg run ./MyApp.exe
 
 # Run with arguments
-dotnet run --project PerfReg run ./MyApp.exe arg1 arg2
+perfreg run ./MyApp.exe arg1 arg2
 
 # Compare last two runs
-dotnet run --project PerfReg compare
+perfreg compare
 
 # View history
-dotnet run --project PerfReg history
+perfreg history
 
 # Clear all history
-dotnet run --project PerfReg clear
+perfreg clear
 ```
 
 ## Migration Impact

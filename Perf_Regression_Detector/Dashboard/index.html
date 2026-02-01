@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PerfReg Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>⚡ PerfReg Dashboard</h1>
+                <span class="version">v3.0.0</span>
+            </div>
+            <div class="header-right">
+                <label for="program-select">Program:</label>
+                <select id="program-select" class="select">
+                    <option value="">Loading...</option>
+                </select>
+                <button id="refresh-btn" class="btn btn-primary">↻ Refresh</button>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <span class="stat-value" id="total-runs">--</span>
+                    <span class="stat-label">Total Runs</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-content">
+                    <span class="stat-value" id="avg-runtime">--</span>
+                    <span class="stat-label">Avg Runtime</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💾</div>
+                <div class="stat-content">
+                    <span class="stat-value" id="avg-memory">--</span>
+                    <span class="stat-label">Avg Memory</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" id="trend-icon">📈</div>
+                <div class="stat-content">
+                    <span class="stat-value" id="trend-status">--</span>
+                    <span class="stat-label">Trend</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Row -->
+        <section class="charts-row charts-row-main">
+            <div class="chart-card chart-large">
+                <h3>Runtime Trend <span class="chart-subtitle">(milliseconds over time)</span></h3>
+                <canvas id="runtime-chart"></canvas>
+            </div>
+            <div class="chart-card summary-card">
+                <h3>Latest Run Summary</h3>
+                <div class="summary-content">
+                    <div class="summary-item">
+                        <span class="summary-label">Program</span>
+                        <span class="summary-value" id="summary-program">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Last Run</span>
+                        <span class="summary-value" id="summary-timestamp">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Runtime</span>
+                        <span class="summary-value highlight" id="summary-runtime">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Memory</span>
+                        <span class="summary-value" id="summary-memory">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Std Dev</span>
+                        <span class="summary-value" id="summary-stddev">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Commit</span>
+                        <span class="summary-value commit-hash" id="summary-commit">--</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">GC (0/1/2)</span>
+                        <span class="summary-value" id="summary-gc">--</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="charts-row">
+            <div class="chart-card">
+                <h3>Memory Usage <span class="chart-subtitle">(MB over time)</span></h3>
+                <canvas id="memory-chart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Runtime Distribution <span class="chart-subtitle">(frequency by ms range)</span></h3>
+                <canvas id="distribution-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Percentiles -->
+        <section class="percentiles-section">
+            <div class="chart-card">
+                <h3>Percentiles (Latest Run)</h3>
+                <div class="percentile-grid">
+                    <div class="percentile-box">
+                        <span class="percentile-label">P50</span>
+                        <span class="percentile-value" id="p50">--</span>
+                    </div>
+                    <div class="percentile-box">
+                        <span class="percentile-label">P95</span>
+                        <span class="percentile-value" id="p95">--</span>
+                    </div>
+                    <div class="percentile-box">
+                        <span class="percentile-label">P99</span>
+                        <span class="percentile-value" id="p99">--</span>
+                    </div>
+                    <div class="percentile-box">
+                        <span class="percentile-label">Min</span>
+                        <span class="percentile-value" id="min-val">--</span>
+                    </div>
+                    <div class="percentile-box">
+                        <span class="percentile-label">Max</span>
+                        <span class="percentile-value" id="max-val">--</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Runs Table -->
+        <section class="table-section">
+            <div class="chart-card">
+                <h3>Recent Runs</h3>
+                <table class="runs-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Timestamp</th>
+                            <th>Runtime</th>
+                            <th>Memory</th>
+                            <th>Commit</th>
+                            <th>Change</th>
+                        </tr>
+                    </thead>
+                    <tbody id="runs-table-body">
+                        <tr>
+                            <td colspan="6" class="loading">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>PerfReg Dashboard • Built for XHacks 2026</p>
+        </footer>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

@@ -21,7 +21,7 @@ Sprint 1 focused on making PerfReg production-ready with reliable benchmarking t
 
 **Example usage:**
 ```bash
-dotnet run --project PerfReg run MyApp.exe --runs 10
+perfreg run MyApp.exe --runs 10
 ```
 
 **Example output:**
@@ -74,7 +74,7 @@ Results (10 run(s), 0 warmup(s)):
 **Example usage:**
 ```bash
 # Create config file
-dotnet run --project PerfReg config
+perfreg config
 
 # Edit .perfreg.json to set defaults
 # Now all runs use configured defaults unless overridden
@@ -92,7 +92,7 @@ dotnet run --project PerfReg config
 
 **Example usage:**
 ```bash
-dotnet run --project PerfReg run MyApp.exe --runs 5 --warmup 2
+perfreg run MyApp.exe --runs 5 --warmup 2
 ```
 
 **Example output:**
@@ -162,13 +162,13 @@ Running 5 benchmark(s)...
 
 ### Test 1: Single Run (Baseline)
 ```bash
-dotnet run --project PerfReg run TestProgram.exe 1
+perfreg run TestProgram.exe 1
 # Works as before, no statistics shown
 ```
 
 ### Test 2: Multiple Runs
 ```bash
-dotnet run --project PerfReg run TestProgram.exe 1 --runs 5
+perfreg run TestProgram.exe 1 --runs 5
 # Output:
 Running 5 benchmark(s)...
   Run 1/5... 184.99ms
@@ -185,30 +185,30 @@ Results (5 run(s), 0 warmup(s)):
 
 ### Test 3: Warmup + Multiple Runs
 ```bash
-dotnet run --project PerfReg run TestProgram.exe 1 --runs 5 --warmup 2
+perfreg run TestProgram.exe 1 --runs 5 --warmup 2
 # Output shows warmup progress, then measurements
 ```
 
 ### Test 4: Configuration
 ```bash
-dotnet run --project PerfReg config
+perfreg config
 # Creates .perfreg.json
 
 # Edit config to set DefaultRuns: 3
-dotnet run --project PerfReg run TestProgram.exe 1
+perfreg run TestProgram.exe 1
 # Automatically runs 3 times
 ```
 
 ### Test 5: Comparison with Statistics
 ```bash
-dotnet run --project PerfReg run TestProgram.exe 1 --runs 5
-dotnet run --project PerfReg run TestProgram.exe 2 --runs 3
+perfreg run TestProgram.exe 1 --runs 5
+perfreg run TestProgram.exe 2 --runs 3
 # Comparison correctly shows 59% runtime regression
 ```
 
 ### Test 6: History
 ```bash
-dotnet run --project PerfReg history
+perfreg history
 # Output:
 === TestProgram ===
 Total runs: 2
